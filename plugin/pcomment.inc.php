@@ -58,7 +58,7 @@ function plugin_pcomment_action()
 	}
 
 	pkwk_headers_sent();
-	header('Location: ' . get_script_uri() . '?' . rawurlencode($refer));
+	header('Location: ' . get_script_uri() . '?' . pagename_urlencode($refer));
 	exit;
 }
 
