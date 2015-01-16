@@ -124,32 +124,49 @@ function catbody($title, $page, $body)
 		arsort($keys, SORT_NUMERIC);
 		$keys = get_search_words(array_keys($keys), TRUE);
 		$id = 0;
+		$patterns = '';
 		foreach ($keys as $key=>$pattern) {
-			$s_key    = htmlsc($key);
-			$pattern  = '/' .
-				'<textarea[^>]*>.*?<\/textarea>' .	// Ignore textareas
-				'|' . '<[^>]*>' .			// Ignore tags
-				'|' . '&[^;]+;' .			// Ignore entities
-				'|' . '(' . $pattern . ')' .		// $matches[1]: Regex for a search word
-				'/sS';
-			$decorate_Nth_word = create_function(
-				'$matches',
-				'return (isset($matches[1])) ? ' .
-					'\'<strong class="word' .
-						$id .
-					'">\' . $matches[1] . \'</strong>\' : ' .
-					'$matches[0];'
-			);
-			$body  = preg_replace_callback($pattern, $decorate_Nth_word, $body);
-			$notes = preg_replace_callback($pattern, $decorate_Nth_word, $notes);
-			++$id;
+			if (strlen($patterns) > 0) {
+				$pattern .= '|';
+			}
+			$patterns = '(' . $pattern . ')';
 		}
+		$pattern  = '/' .
+			'<textarea[^>]*>.*?<\/textarea>' .	// Ignore textareas
+			'|' . '<[^>]*>' .			// Ignore tags
+			'|' . '&[^;]+;' .			// Ignore entities
+			'|' . '(' . $patterns . ')' .		// $matches[1]: Regex for a search word
+			'/sS';
+		$body  = preg_replace_callback($pattern, '_decorate_Nth_word', $body);
+		$notes = preg_replace_callback($pattern, '_decorate_Nth_word', $notes);
+		$s_key    = htmlsc($key);
+		$pattern  = '/' .
+			'<textarea[^>]*>.*?<\/textarea>' .	// Ignore textareas
+			'|' . '<[^>]*>' .			// Ignore tags
+			'|' . '&[^;]+;' .			// Ignore entities
+			'|' . '(' . $pattern . ')' .		// $matches[1]: Regex for a search word
+			'/sS';
+		$body  = preg_replace_callback($pattern, '_decorate_Nth_word', $body);
+		$notes = preg_replace_callback($pattern, '_decorate_Nth_word', $notes);
 	}
-
 	// Compat: 'HTML convert time' without time about MenuBar and skin
 	$taketime = elapsedtime();
 
 	require(SKIN_FILE);
+}
+
+function _decorate_Nth_word($matches)
+{
+	$index = 0;
+	for ($i = 2; $i < count($matches); $i++) {
+		if (isset($matches[$i])) {
+			$index = $i;
+		}
+	}
+	return (isset($matches[1])) ?
+		'<strong class="word'
+			. $index .
+		'>' . $matches[0] . '</strong>' : $matches[0];
 }
 
 // Show 'edit' form
@@ -164,7 +181,7 @@ function edit_form($page, $postdata, $digest = FALSE, $b_template = TRUE)
 	if ($digest === FALSE) $digest = md5(join('', get_source($page)));
 
 	$refer = $template = '';
- 
+
  	// Add plugin
 	$addtag = $add_top = '';
 	if(isset($vars['add'])) {
