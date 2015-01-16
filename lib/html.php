@@ -311,6 +311,11 @@ function make_related($page, $tag = '')
 	return $retval;
 }
 
+function _convert_line_rule_to_regex($a)
+{
+	return '/' . $a . '/';
+}
+
 // User-defined rules (convert without replacing source)
 function make_line_rules($str)
 {
@@ -318,8 +323,7 @@ function make_line_rules($str)
 	static $pattern, $replace;
 
 	if (! isset($pattern)) {
-		$pattern = array_map(create_function('$a',
-			'return \'/\' . $a . \'/\';'), array_keys($line_rules));
+		$pattern = array_map('_convert_line_rule_to_regex', array_keys($line_rules));
 		$replace = array_values($line_rules);
 		unset($line_rules);
 	}
