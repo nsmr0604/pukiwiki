@@ -204,9 +204,16 @@ function edit_form($page, $postdata, $digest = FALSE, $b_template = TRUE)
 
 	if($load_template_func && $b_template) {
 		$pages  = array();
-		foreach(get_existpages() as $_page) {
+		$existpages = get_existpages();
+		$template_filter_enabled = count($existpages) > 100;
+		foreach($existpages as $_page) {
 			if ($_page == $whatsnew || check_non_list($_page))
 				continue;
+			if ($template_filter_enabled) {
+				if (!preg_match('/template/i', $_page)) {
+					continue;
+				}
+			}
 			$s_page = htmlsc($_page);
 			$pages[$_page] = '   <option value="' . $s_page . '">' .
 				$s_page . '</option>';
