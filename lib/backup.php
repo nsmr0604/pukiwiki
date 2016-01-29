@@ -29,7 +29,7 @@
  * @return    Void
  */
 
-function make_backup($page, $delete = FALSE)
+function make_backup($page, $delete = false)
 {
 	global $cycle, $maxage;
 	global $do_backup, $del_backup;
@@ -306,4 +306,3 @@ else
 			array();
 	}
 }
-?>

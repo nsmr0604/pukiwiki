@@ -18,11 +18,10 @@ function plugin_lastmod_inline()
 		if (preg_match("/^($WikiName|$BracketName)$/", strip_bracket($page))) {
 			$page = get_fullname(strip_bracket($page), $vars['page']);
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
-	if (! is_page($page)) return FALSE;
+	if (! is_page($page)) return false;
 
 	return format_date(get_filetime($page));
 }
-?>

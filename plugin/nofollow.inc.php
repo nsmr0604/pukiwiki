@@ -16,4 +16,3 @@ function plugin_nofollow_convert()
 
 	return '';
 }
-?>

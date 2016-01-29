@@ -48,13 +48,13 @@ function plugin_md5_action()
 			'msg' =>'Result',
 			'body'=>
 				//($prefix ? 'userPassword: ' : '') .
-				pkwk_hash_compute($phrase, $salt, $prefix, TRUE));
+				pkwk_hash_compute($phrase, $salt, $prefix, true));
 	}
 }
 
 // $nophrase = Passphrase is (submitted but) empty
 // $value    = Default passphrase value
-function plugin_md5_show_form($nophrase = FALSE, $value = '')
+function plugin_md5_show_form($nophrase = false, $value = '')
 {
 	if (PKWK_SAFE_MODE || PKWK_READONLY) die_message('Prohibited');
 	if (strlen($value) > PKWK_PASSPHRASE_LIMIT_LENGTH)
@@ -131,4 +131,3 @@ EOD;
 
 	return $form;
 }
-?>

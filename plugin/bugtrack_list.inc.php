@@ -13,4 +13,3 @@ function plugin_bugtrack_list_init()
 {
 	plugin_bugtrack_init();
 }
-?>

@@ -9,4 +9,3 @@ function plugin_filelist_action()
 {
 	return do_plugin_action('list');
 }
-?>

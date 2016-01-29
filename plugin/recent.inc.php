@@ -49,7 +49,7 @@ function plugin_recent_convert()
 
 	// Get latest N changes
 	$lines = file_head(PLUGIN_RECENT_CACHE, $recent_lines);
-	if ($lines == FALSE) return '#recent(): File can not open' . '<br />' . "\n";
+	if ($lines == false) return '#recent(): File can not open' . '<br />' . "\n";
 
 	$script = get_script_uri();
 	$date = $items = '';
@@ -74,7 +74,7 @@ function plugin_recent_convert()
 		} else {
 			$r_page = rawurlencode($page);
 			$passage = $show_passage ? ' ' . get_passage($time) : '';
-			$items .= ' <li><a href="' . $script . '?' . $r_page . '"' . 
+			$items .= ' <li><a href="' . $script . '?' . $r_page . '"' .
 				' title="' . $s_page . $passage . '">' . $s_page . '</a></li>' . "\n";
 		}
 	}
@@ -83,4 +83,3 @@ function plugin_recent_convert()
 
 	return sprintf($_recent_plugin_frame, count($lines), $items);
 }
-?>

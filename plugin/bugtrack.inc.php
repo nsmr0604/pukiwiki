@@ -22,7 +22,7 @@ function plugin_bugtrack_init()
 
 	if (isset($init)) return; // Already init
 	if (isset($_plugin_bugtrack)) die('Global $_plugin_bugtrack had been init. Why?');
-	$init = TRUE;
+	$init = true;
 
 	$_plugin_bugtrack = array(
 		'priority_list'  => array('¶ÛµÞ', '½ÅÍ×', 'ÉáÄÌ', 'Äã'),
@@ -174,7 +174,7 @@ function plugin_bugtrack_action()
 	global $post;
 
 	if (PKWK_READONLY) die_message('PKWK_READONLY prohibits editing');
-	if ($post['mode'] != 'submit') return FALSE;
+	if ($post['mode'] != 'submit') return false;
 
 	$page = plugin_bugtrack_write($post['base'], $post['pagename'], $post['summary'],
 		$post['name'], $post['priority'], $post['state'], $post['category'],
@@ -226,8 +226,8 @@ function plugin_bugtrack_template($base, $summary, $name, $priority, $state, $ca
 {
 	global $_plugin_bugtrack, $WikiName;
 
-	if (! preg_match("/^$WikiName$$/",$base)) $base = '[[' . $base . ']]';
-	if ($name != '' && ! preg_match("/^$WikiName$$/",$name)) $name = '[[' . $name . ']]';
+	if (! preg_match("/^$WikiName$$/", $base)) $base = '[[' . $base . ']]';
+	if ($name != '' && ! preg_match("/^$WikiName$$/", $name)) $name = '[[' . $name . ']]';
 
 	if ($name    == '') $name    = $_plugin_bugtrack['noname'];
 	if ($summary == '') $summary = $_plugin_bugtrack['nosummary'];
@@ -285,7 +285,7 @@ function plugin_bugtrack_list_convert()
 		$page_link = make_pagelink($page);
 
 		$state_no = array_search($state, $_plugin_bugtrack['state_sort']);
-		if ($state_no === NULL || $state_no === FALSE) $state_no = $count_list;
+		if ($state_no === null || $state_no === false) $state_no = $count_list;
 		$bgcolor = htmlsc($_plugin_bugtrack['state_bgcolor'][$state_no]);
 
 		$row = <<<EOD
@@ -319,11 +319,11 @@ EOD;
 }
 
 // Get one set of data from a page (or a page moved to $page)
-function plugin_bugtrack_list_pageinfo($page, $no = NULL, $recurse = TRUE)
+function plugin_bugtrack_list_pageinfo($page, $no = null, $recurse = true)
 {
 	global $WikiName, $InterWikiName, $BracketName, $_plugin_bugtrack;
 
-	if ($no === NULL)
+	if ($no === null)
 		$no = preg_match('/\/([0-9]+)$/', $page, $matches) ? $matches[1] : 0;
 
 	$source = get_source($page);
@@ -332,7 +332,7 @@ function plugin_bugtrack_list_pageinfo($page, $no = NULL, $recurse = TRUE)
 	$regex  = "/move\s*to\s*($WikiName|$InterWikiName|\[\[$BracketName\]\])/";
 	$match  = array();
 	if ($recurse && preg_match($regex, $source[0], $match))
-		return plugin_bugtrack_list_pageinfo(strip_bracket($match[1]), $no, FALSE);
+		return plugin_bugtrack_list_pageinfo(strip_bracket($match[1]), $no, false);
 
 	$body = join("\n", $source);
 	foreach(array('summary', 'name', 'priority', 'state', 'category') as $item) {
@@ -355,4 +355,3 @@ function plugin_bugtrack_list_pageinfo($page, $no = NULL, $recurse = TRUE)
 
 	return array($page, $no, $summary, $name, $priority, $state, $category);
 }
-?>

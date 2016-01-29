@@ -39,7 +39,7 @@ define('PLUGIN_ARTICLE_MAIL_SUBJECT_PREFIX', "[someone's PukiWiki]"); // Åê¹ÆÆâÍ
 
 // Åê¹ÆÆâÍÆ¤Î¥á¡¼¥ë¼«Æ°ÇÛ¿®Àè
 global $_plugin_article_mailto;
-$_plugin_article_mailto = array (
+$_plugin_article_mailto = array(
 	''
 );
 
@@ -177,4 +177,3 @@ EOD;
 
 	return $string;
 }
-?>

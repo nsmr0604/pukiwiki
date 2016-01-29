@@ -6,7 +6,7 @@
 
 // Allow CSS instead of <font> tag
 // NOTE: <font> tag become invalid from XHTML 1.1
-define('PLUGIN_COLOR_ALLOW_CSS', TRUE); // TRUE, FALSE
+define('PLUGIN_COLOR_ALLOW_CSS', true); // TRUE, FALSE
 
 // ----
 define('PLUGIN_COLOR_USAGE', '&color(foreground[,background]){text};');
@@ -34,7 +34,7 @@ function plugin_color_inline()
 			return '&color():Invalid color: ' . htmlsc($col) . ';';
 	}
 
-	if (PLUGIN_COLOR_ALLOW_CSS === TRUE || ! isset($pkwk_dtd) || $pkwk_dtd == PKWK_DTD_XHTML_1_1) {
+	if (PLUGIN_COLOR_ALLOW_CSS === true || ! isset($pkwk_dtd) || $pkwk_dtd == PKWK_DTD_XHTML_1_1) {
 		$delimiter = '';
 		if ($color != '' && $bgcolor != '') $delimiter = '; ';
 		if ($color   != '') $color   = 'color:' . $color;
@@ -46,4 +46,3 @@ function plugin_color_inline()
 		return '<font color="' . $color . '">' . $text . '</font>';
 	}
 }
-?>

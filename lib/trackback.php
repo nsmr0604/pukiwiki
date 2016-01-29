@@ -52,7 +52,7 @@ function tb_id2page($tb_id)
 		if ($tb_id == $_tb_id) return $cache[$tb_id]; // Found
 	}
 
-	$cache[$tb_id] = FALSE;
+	$cache[$tb_id] = false;
 	return $cache[$tb_id]; // Not found
 }
 
@@ -146,7 +146,7 @@ function tb_get($file, $key = 1)
 		$result[rawurldecode($data[$key])] = $data;
 	}
 	flock($fp, LOCK_UN);
-	fclose ($fp);
+	fclose($fp);
 
 	return $result;
 }
@@ -197,7 +197,7 @@ function tb_get_url($url)
 	$obj = new TrackBack_XML();
 	foreach ($matches[1] as $body) {
 		$tb_url = $obj->parse($body, $url);
-		if ($tb_url !== FALSE) return $tb_url;
+		if ($tb_url !== false) return $tb_url;
 	}
 
 	return '';
@@ -206,34 +206,34 @@ function tb_get_url($url)
 // Parse and reveal the TrackBack Ping URL from RDF(XML) data
 class TrackBack_XML
 {
-	var $url;
-	var $tb_url;
+	public $url;
+	public $tb_url;
 
-	function parse($buf, $url)
+	public function parse($buf, $url)
 	{
 		// Init
 		$this->url    = $url;
-		$this->tb_url = FALSE;
+		$this->tb_url = false;
 
 		$xml_parser = xml_parser_create();
-		if ($xml_parser === FALSE) return FALSE;
+		if ($xml_parser === false) return false;
 
 		xml_set_element_handler($xml_parser, array(& $this, 'start_element'),
 			array(& $this, 'end_element'));
 
-		if (! xml_parse($xml_parser, $buf, TRUE)) {
+		if (! xml_parse($xml_parser, $buf, true)) {
 /*			die(sprintf('XML error: %s at line %d in %s',
 				xml_error_string(xml_get_error_code($xml_parser)),
 				xml_get_current_line_number($xml_parser),
 				$buf));
 */
-			return FALSE;
+			return false;
 		}
 
 		return $this->tb_url;
 	}
 
-	function start_element($parser, $name, $attrs)
+	public function start_element($parser, $name, $attrs)
 	{
 		if ($name !== 'RDF:DESCRIPTION') return;
 
@@ -250,7 +250,7 @@ class TrackBack_XML
 			$this->tb_url = $tb_url;
 	}
 
-	function end_element($parser, $name) {}
+	public function end_element($parser, $name) {}
 }
 
 // Save or update referer data
@@ -258,14 +258,14 @@ function ref_save($page)
 {
 	global $referer;
 
-	if (PKWK_READONLY || ! $referer || empty($_SERVER['HTTP_REFERER'])) return TRUE;
+	if (PKWK_READONLY || ! $referer || empty($_SERVER['HTTP_REFERER'])) return true;
 
 	$url = $_SERVER['HTTP_REFERER'];
 
 	// Validate URI (Ignore own)
 	$parse_url = parse_url($url);
 	if (empty($parse_url['host']) || $parse_url['host'] == $_SERVER['HTTP_HOST'])
-		return TRUE;
+		return true;
 
 	if (! is_dir(TRACKBACK_DIR))      die('No such directory: TRACKBACK_DIR');
 	if (! is_writable(TRACKBACK_DIR)) die('Permission denied to write: TRACKBACK_DIR');
@@ -290,7 +290,7 @@ function ref_save($page)
 	$data[$d_url][2]++;
 
 	$fp = fopen($filename, 'w');
-	if ($fp === FALSE) return FALSE;	
+	if ($fp === false) return false;
 	set_file_buffer($fp, 0);
 	flock($fp, LOCK_EX);
 	rewind($fp);
@@ -299,6 +299,5 @@ function ref_save($page)
 	flock($fp, LOCK_UN);
 	fclose($fp);
 
-	return TRUE;
+	return true;
 }
-?>

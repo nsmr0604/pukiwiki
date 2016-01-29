@@ -97,4 +97,3 @@ EOD;
 
 	return $string;
 }
-?>

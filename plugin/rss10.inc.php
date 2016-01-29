@@ -9,4 +9,3 @@ function plugin_rss10_action()
 	header('Location: ' . get_script_uri() . '?cmd=rss&ver=1.0'); // HTTP
 	exit;
 }
-?>

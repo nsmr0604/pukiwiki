@@ -51,7 +51,7 @@
 
 // Amazon associate ID
 //define('PLUGIN_AMAZON_AID',''); // None
-define('PLUGIN_AMAZON_AID','');
+define('PLUGIN_AMAZON_AID', '');
 
 // Expire caches per ? days
 define('PLUGIN_AMAZON_EXPIRE_IMAGECACHE',   1);
@@ -121,7 +121,7 @@ function plugin_amazon_convert()
 		return '#amazon([ASIN-number][,left|,right]' .
 			'[,book-title|,image|,delimage|,deltitle|,delete])';
 
-	} else if (func_num_args() == 0) {
+	} elseif (func_num_args() == 0) {
 		// レビュー作成
 		if (PKWK_READONLY) return ''; // Show nothing
 
@@ -148,16 +148,16 @@ EOD;
 	if ($align != 'left') $align = 'right'; // 配置決定
 
 	$asin_all = htmlsc($aryargs[0]);  // for XSS
-	if (is_asin() == FALSE && $align != 'clear') return FALSE;
+	if (is_asin() == false && $align != 'clear') return false;
 
 	if ($aryargs[2] != '') {
 		// タイトル指定
 		$title = $alt = htmlsc($aryargs[2]); // for XSS
 		if ($alt == 'image') {
 			$alt = plugin_amazon_get_asin_title();
-			if ($alt == '') return FALSE;
+			if ($alt == '') return false;
 			$title = '';
-		} else if ($alt == 'delimage') {
+		} elseif ($alt == 'delimage') {
 			if (unlink(CACHE_DIR . 'ASIN' . $asin . '.jpg')) {
 				return 'Image of ' . $asin . ' deleted...';
 			} else {
@@ -180,7 +180,7 @@ EOD;
 	} else {
 		// タイトル自動取得
 		$alt = $title = plugin_amazon_get_asin_title();
-		if ($alt == '') return FALSE;
+		if ($alt == '') return false;
 	}
 
 	return plugin_amazon_print_object($align, $alt, $title);
@@ -237,11 +237,11 @@ function plugin_amazon_inline()
 	list($asin_all) = func_get_args();
 
 	$asin_all = htmlsc($asin_all); // for XSS
-	if (! is_asin()) return FALSE;
+	if (! is_asin()) return false;
 
 	$title = plugin_amazon_get_asin_title();
 	if ($title == '') {
-		return FALSE;
+		return false;
 	} else {
 		return '<a href="' . PLUGIN_AMAZON_SHOP_URI .
 			$asin . '/' . $amazon_aid . 'ref=nosim">' . $title . '</a>' . "\n";
@@ -286,9 +286,9 @@ function plugin_amazon_get_asin_title()
 
 	$url = PLUGIN_AMAZON_XML . $asin;
 
-	if (file_exists(CACHE_DIR) === FALSE || is_writable(CACHE_DIR) === FALSE) $nocachable = 1; // キャッシュ不可の場合
+	if (file_exists(CACHE_DIR) === false || is_writable(CACHE_DIR) === false) $nocachable = 1; // キャッシュ不可の場合
 
-	if (($title = plugin_amazon_cache_title_fetch(CACHE_DIR)) == FALSE) {
+	if (($title = plugin_amazon_cache_title_fetch(CACHE_DIR)) == false) {
 		$nocache = 1; // キャッシュ見つからず
 		$body    = plugin_amazon_get_page($url); // しかたないので取りにいく
 		$tmpary  = array();
@@ -327,9 +327,9 @@ function plugin_amazon_cache_title_fetch($dir)
 		$get_tit = 1;
 	}
 
-	if ($get_tit) return FALSE;
+	if ($get_tit) return false;
 
-	if (($fp = @fopen($filename, 'r')) === FALSE) return FALSE;
+	if (($fp = @fopen($filename, 'r')) === false) return false;
 	$title = fgets($fp, 4096);
 //	$tmp_ext = fgets($fp, 4096);
 //	if ($tmp_ext != '') $asin_ext = $tmp_ext;
@@ -338,7 +338,7 @@ function plugin_amazon_cache_title_fetch($dir)
 	if (strlen($title) > 0) {
 		return $title;
 	} else {
-		return FALSE;
+		return false;
 	}
 }
 
@@ -358,7 +358,7 @@ function plugin_amazon_cache_image_fetch($dir)
 
 	if ($get_img) {
 		$url = 'http://images-jp.amazon.com/images/P/' . $asin . '.' . $asin_ext . '.MZZZZZZZ.jpg';
-		if (! is_url($url)) return FALSE;
+		if (! is_url($url)) return false;
 
 		$body = plugin_amazon_get_page($url);
 		if ($body != '') {
@@ -385,11 +385,11 @@ function plugin_amazon_cache_image_fetch($dir)
 			}
 			if ($body == '' || $size[1] <= 1) {
 				$fp = fopen(PLUGIN_AMAZON_NO_IMAGE, 'rb');
-				if (! $fp) return FALSE;
+				if (! $fp) return false;
 				
 				$body = '';
 				while (! feof($fp)) $body .= fread($fp, 4096);
-				fclose ($fp);
+				fclose($fp);
 			}
 		}
 		plugin_amazon_cache_image_save($body, CACHE_DIR);
@@ -433,9 +433,9 @@ function plugin_amazon_review_save($page, $data)
 		$fp = fopen($filename, 'w');
 		fwrite($fp, $data);
 		fclose($fp);
-		return TRUE;
+		return true;
 	} else {
-		return FALSE;
+		return false;
 	}
 }
 
@@ -451,14 +451,13 @@ function is_asin()
 	global $asin, $asin_ext, $asin_all;
 
 	$tmpary = array();
-	if (preg_match('/^([A-Z0-9]{10}).?([0-9][0-9])?$/', $asin_all, $tmpary) == FALSE) {
-		return FALSE;
+	if (preg_match('/^([A-Z0-9]{10}).?([0-9][0-9])?$/', $asin_all, $tmpary) == false) {
+		return false;
 	} else {
 		$asin     = $tmpary[1];
 		$asin_ext = isset($tmpary[2]) ? $tmpary[2] : '';
 		if ($asin_ext == '') $asin_ext = '09';
 		$asin_all = $asin . $asin_ext;
-		return TRUE;
+		return true;
 	}
 }
-?>

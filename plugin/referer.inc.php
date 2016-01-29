@@ -29,7 +29,7 @@ function plugin_referer_action()
 	} else {
 		return array(
 			'msg'  => 'referer list',
-			'body' => page_list($pages, 'referer', FALSE));
+			'body' => page_list($pages, 'referer', false));
 	}
 }
 
@@ -102,8 +102,8 @@ function plugin_referer_body($page, $sort)
 		$e_url = htmlsc(preg_replace('/([" \x80-\xff]+)/e', 'rawurlencode("$1")', $url));
 		$s_url = htmlsc(mb_convert_encoding(rawurldecode($url), SOURCE_ENCODING, 'auto'));
 
-		$lpass = get_passage($ltime, FALSE); // 最終更新日時からの経過時間
-		$spass = get_passage($stime, FALSE); // 初回登録日時からの経過時間
+		$lpass = get_passage($ltime, false); // 最終更新日時からの経過時間
+		$spass = get_passage($stime, false); // 初回登録日時からの経過時間
 		$ldate = get_date($_referer_msg['msg_Fmt_Date'], $ltime); // 最終更新日時文字列
 		$sdate = get_date($_referer_msg['msg_Fmt_Date'], $stime); // 初回登録日時文字列
 
@@ -184,8 +184,7 @@ function plugin_referer_ignore_check($url)
 	}
 
 	foreach ($ignore_url as $x)
-		if (strpos($url, $x) !== FALSE)
+		if (strpos($url, $x) !== false)
 			return 1;
 	return 0;
 }
-?>

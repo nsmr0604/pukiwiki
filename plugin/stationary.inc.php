@@ -71,4 +71,3 @@ function plugin_stationary_action()
 
 	return array('msg' => htmlsc($msg), 'body' => htmlsc($body));
 }
-?>

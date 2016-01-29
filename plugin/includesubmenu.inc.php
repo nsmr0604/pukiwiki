@@ -9,12 +9,12 @@ function plugin_includesubmenu_convert()
 {
   global $script,$vars;
 
-  $ShowPageName = FALSE;
+  $ShowPageName = false;
 
   if (func_num_args()) {
     $aryargs = func_get_args();
     if ($aryargs[0] == 'showpagename') {
-      $ShowPageName = TRUE;
+      $ShowPageName = true;
     }
   }
 
@@ -25,11 +25,11 @@ function plugin_includesubmenu_convert()
   $SubMenuPageName1 = $tmppage . '/SubMenu';
 
   //同階層のSubMenuページ名
-  $LastSlash= strrpos($tmppage,'/');
-  if ($LastSlash === FALSE) {
+  $LastSlash= strrpos($tmppage, '/');
+  if ($LastSlash === false) {
     $SubMenuPageName2 = 'SubMenu';
   } else {
-    $SubMenuPageName2 = substr($tmppage,0,$LastSlash) . '/SubMenu';
+    $SubMenuPageName2 = substr($tmppage, 0, $LastSlash) . '/SubMenu';
   }
   //echo "$SubMenuPageName1 <br>";
   //echo "$SubMenuPageName2 <br>";
@@ -39,7 +39,7 @@ function plugin_includesubmenu_convert()
     //下階層にSubMenu有り
     $SubMenuPageName = $SubMenuPageName1;
   }
-  else if (is_page($SubMenuPageName2)) {
+  elseif (is_page($SubMenuPageName2)) {
     //同階層にSubMenu有り
     $SubMenuPageName = $SubMenuPageName2;
   }
@@ -58,4 +58,3 @@ function plugin_includesubmenu_convert()
   }
   return $body;
 }
-?>

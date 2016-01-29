@@ -83,7 +83,7 @@ function plugin_backup_action()
 	if ($backups_count > 0) {
 		$body .= '  <ul>' . "\n";
 		foreach($backups as $age => $val) {
-			$date = format_date($val['time'], TRUE);
+			$date = format_date($val['time'], true);
 			$body .= ($age == $s_age) ?
 				'   <li><em>' . $age . ' ' . $date . '</em></li>' . "\n" :
 				'   <li><a href="' . $script . '?cmd=backup&amp;action=' .
@@ -100,12 +100,12 @@ function plugin_backup_action()
 		$old = ($s_age > 1) ? join('', $backups[$s_age - 1]['data']) : '';
 		$cur = join('', $backups[$s_age]['data']);
 		$body .= plugin_backup_diff(do_diff($old, $cur));
-	} else if ($s_action == 'nowdiff') {
+	} elseif ($s_action == 'nowdiff') {
 		$title = & $_title_backupnowdiff;
 		$old = join('', $backups[$s_age]['data']);
 		$cur = join('', get_source($page));
 		$body .= plugin_backup_diff(do_diff($old, $cur));
-	} else if ($s_action == 'source') {
+	} elseif ($s_action == 'source') {
 		$title = & $_title_backupsource;
 		$body .= '<pre>' . htmlsc(join('', $backups[$s_age]['data'])) .
 			'</pre>' . "\n";
@@ -217,7 +217,7 @@ EOD;
 			$_anchor_from = '<a href="' . $href . $age . '">';
 			$_anchor_to   = '</a>';
 		}
-		$date = format_date($data['time'], TRUE);
+		$date = format_date($data['time'], true);
 		$retval[1] .= <<<EOD
    <li>$_anchor_from$age $date$_anchor_to
      [ <a href="$href$age&amp;action=diff">$_msg_diff</a>
@@ -232,7 +232,7 @@ EOD;
 }
 
 // List for all pages
-function plugin_backup_get_list_all($withfilename = FALSE)
+function plugin_backup_get_list_all($withfilename = false)
 {
 	global $cantedit;
 
@@ -244,4 +244,3 @@ function plugin_backup_get_list_all($withfilename = FALSE)
 		return page_list($pages, 'backup', $withfilename);
 	}
 }
-?>

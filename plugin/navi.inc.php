@@ -40,7 +40,7 @@ define('PLUGIN_NAVI_EXCLUSIVE_REGEX', '');
 //define('PLUGIN_NAVI_EXCLUSIVE_REGEX', '#/_#'); // Ignore 'foobar/_memo' etc.
 
 // Insert <link rel=... /> tags into XHTML <head></head>
-define('PLUGIN_NAVI_LINK_TAGS', FALSE);	// FALSE, TRUE
+define('PLUGIN_NAVI_LINK_TAGS', false);	// FALSE, TRUE
 
 // ----
 
@@ -51,7 +51,7 @@ function plugin_navi_convert()
 	static $navi = array();
 
 	$current = $vars['page'];
-	$reverse = FALSE;
+	$reverse = false;
 	if (func_num_args()) {
 		list($home, $reverse) = array_pad(func_get_args(), 2, '');
 		// strip_bracket() is not necessary but compatible
@@ -60,7 +60,7 @@ function plugin_navi_convert()
 		if (! is_page($home)) {
 			return '#navi(contents-page-name): No such page: ' .
 				htmlsc($home) . '<br />';
-		} else if (! $is_home &&
+		} elseif (! $is_home &&
 		    ! preg_match('/^' . preg_quote($home, '/') . '/', $current)) {
 			return '#navi(' . htmlsc($home) .
 				'): Not a child page like: ' .
@@ -70,7 +70,7 @@ function plugin_navi_convert()
 		$reverse = (strtolower($reverse) == 'reverse');
 	} else {
 		$home    = $vars['page'];
-		$is_home = TRUE; // $home == $current
+		$is_home = true; // $home == $current
 	}
 
 	$pages  = array();
@@ -146,7 +146,7 @@ function plugin_navi_convert()
 		$count = count($pages);
 		if ($count == 0) {
 			return '#navi(contents-page-name): You already view the result<br />';
-		} else if ($count == 1) {
+		} elseif ($count == 1) {
 			// Sentinel only: Show usage and warning
 			$home = htmlsc($home);
 			$ret .= '#navi(' . $home . '): No child page like: ' .
@@ -159,7 +159,7 @@ function plugin_navi_convert()
 			$ret .= '</ul>';
 		}
 
-	} else if (! $footer) {
+	} elseif (! $footer) {
 		// Header
 		$ret = <<<EOD
 <ul class="navi">
@@ -183,4 +183,3 @@ EOD;
 	}
 	return $ret;
 }
-?>

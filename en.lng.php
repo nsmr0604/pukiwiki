@@ -440,4 +440,3 @@ $_vote_plugin_votes  = 'Vote';
 // yetlist.inc.php
 $_title_yetlist = 'List of pages which have not yet been created.';
 $_err_notexist  = 'All pages have been created.';
-?>

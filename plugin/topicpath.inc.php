@@ -39,7 +39,7 @@ function plugin_topicpath_inline()
 
 	$parts = explode('/', $page);
 
-	$b_link = TRUE;
+	$b_link = true;
 	if (PLUGIN_TOPICPATH_THIS_PAGE_DISPLAY) {
 		$b_link = PLUGIN_TOPICPATH_THIS_PAGE_LINK;
 	} else {
@@ -53,9 +53,9 @@ function plugin_topicpath_inline()
 		$element  = htmlsc(array_pop($parts));
 		if (! $b_link)  {
 			// This page ($_landing == $page)
-			$b_link = TRUE;
+			$b_link = true;
 			$topic_path[] = $element;
-		} else if (PKWK_READONLY && ! is_page($_landing)) {
+		} elseif (PKWK_READONLY && ! is_page($_landing)) {
 			// Page not exists
 			$topic_path[] = $element;
 		} else {
@@ -70,4 +70,3 @@ function plugin_topicpath_inline()
 
 	return join(PLUGIN_TOPICPATH_TOP_SEPARATOR, array_reverse($topic_path));
 }
-?>

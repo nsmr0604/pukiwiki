@@ -46,4 +46,3 @@ function plugin_setlinebreak_convert()
 	}
 	return '';
 }
-?>

@@ -95,7 +95,7 @@ function catbody($title, $page, $body)
 
 	// Last modification date (string) of the page
 	$lastmodified = $is_read ?  format_date(get_filetime($_page)) .
-		' ' . get_pg_passage($_page, FALSE) : '';
+		' ' . get_pg_passage($_page, false) : '';
 
 	// List of attached files to the page
 	$attaches = ($attach_link && $is_read && exist_plugin_action('attach')) ?
@@ -129,7 +129,7 @@ function catbody($title, $page, $body)
 		$keys = array();
 		foreach ($words as $word=>$id) $keys[$word] = strlen($word);
 		arsort($keys, SORT_NUMERIC);
-		$keys = get_search_words(array_keys($keys), TRUE);
+		$keys = get_search_words(array_keys($keys), true);
 		$id = 0;
 		foreach ($keys as $key=>$pattern) {
 			$s_key    = htmlsc($key);
@@ -160,7 +160,7 @@ function catbody($title, $page, $body)
 }
 
 // Show 'edit' form
-function edit_form($page, $postdata, $digest = FALSE, $b_template = TRUE)
+function edit_form($page, $postdata, $digest = false, $b_template = true)
 {
 	global $script, $vars, $rows, $cols, $hr, $function_freeze;
 	global $_btn_preview, $_btn_repreview, $_btn_update, $_btn_cancel, $_msg_help;
@@ -168,7 +168,7 @@ function edit_form($page, $postdata, $digest = FALSE, $b_template = TRUE)
 	global $notimeupdate;
 
 	// Newly generate $digest or not
-	if ($digest === FALSE) $digest = md5(join('', get_source($page)));
+	if ($digest === false) $digest = md5(join('', get_source($page)));
 
 	$refer = $template = '';
  
@@ -309,7 +309,7 @@ function make_related($page, $tag = '')
 		$retval =  "\n" . '<ul' . $style . '>' . "\n" .
 			'<li>' . join($rule_related_str, $_links) . '</li>' . "\n" .
 			'</ul>' . "\n";
-	} else if ($tag) {
+	} elseif ($tag) {
 		$retval = join($rule_related_str, $_links);
 	} else {
 		$retval = join($related_str, $_links);
@@ -335,7 +335,7 @@ function make_line_rules($str)
 }
 
 // Remove all HTML tags(or just anchor tags), and WikiName-speific decorations
-function strip_htmltag($str, $all = TRUE)
+function strip_htmltag($str, $all = true)
 {
 	global $_symbol_noexists;
 	static $noexists_pattern;
@@ -375,7 +375,7 @@ function make_search($page)
 }
 
 // Make heading string (remove heading-related decorations from Wiki text)
-function make_heading(& $str, $strip = TRUE)
+function make_heading(& $str, $strip = true)
 {
 	global $NotePattern;
 
@@ -390,7 +390,7 @@ function make_heading(& $str, $strip = TRUE)
 	}
 
 	// Cut footnotes and tags
-	if ($strip === TRUE)
+	if ($strip === true)
 		$str = strip_htmltag(make_link(preg_replace($NotePattern, '', $str)));
 
 	return $id;
@@ -398,24 +398,24 @@ function make_heading(& $str, $strip = TRUE)
 
 // Separate a page-name(or URL or null string) and an anchor
 // (last one standing) without sharp
-function anchor_explode($page, $strict_editable = FALSE)
+function anchor_explode($page, $strict_editable = false)
 {
 	$pos = strrpos($page, '#');
-	if ($pos === FALSE) return array($page, '', FALSE);
+	if ($pos === false) return array($page, '', false);
 
 	// Ignore the last sharp letter
 	if ($pos + 1 == strlen($page)) {
 		$pos = strpos(substr($page, $pos + 1), '#');
-		if ($pos === FALSE) return array($page, '', FALSE);
+		if ($pos === false) return array($page, '', false);
 	}
 
 	$s_page = substr($page, 0, $pos);
 	$anchor = substr($page, $pos + 1);
 
-	if($strict_editable === TRUE &&  preg_match('/^[a-z][a-f0-9]{7}$/', $anchor)) {
-		return array ($s_page, $anchor, TRUE); // Seems fixed-anchor
+	if($strict_editable === true &&  preg_match('/^[a-z][a-f0-9]{7}$/', $anchor)) {
+		return array($s_page, $anchor, true); // Seems fixed-anchor
 	} else {
-		return array ($s_page, $anchor, FALSE);
+		return array($s_page, $anchor, false);
 	}
 }
 
@@ -473,7 +473,7 @@ function pkwk_output_dtd($pkwk_dtd = PKWK_DTD_XHTML_1_1, $charset = CONTENT_CHAR
 {
 	static $called;
 	if (isset($called)) die('pkwk_output_dtd() already called. Why?');
-	$called = TRUE;
+	$called = true;
 
 	$type = PKWK_DTD_TYPE_XHTML;
 	$option = '';
@@ -542,4 +542,3 @@ function pkwk_output_dtd($pkwk_dtd = PKWK_DTD_XHTML_1_1, $charset = CONTENT_CHAR
 		return '<meta http-equiv="content-type" content="text/html; charset=' . $charset . '" />' . "\n";
 	}
 }
-?>

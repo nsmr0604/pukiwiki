@@ -21,4 +21,3 @@ define('DATA_HOME',	'');
 define('LIB_DIR',	'lib/');
 
 require(LIB_DIR . 'pukiwiki.php');
-?>

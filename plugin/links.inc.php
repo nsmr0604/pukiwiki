@@ -53,7 +53,7 @@ function plugin_links_action()
 </form>
 EOD;
 
-	} else if ($vars['action'] == 'update') {
+	} elseif ($vars['action'] == 'update') {
 		links_init();
 		$foot_explain = array(); // Exhaust footnotes
 		$msg  = & $_links_messages['title_update'];
@@ -64,4 +64,3 @@ EOD;
 	}
 	return array('msg'=>$msg, 'body'=>$body);
 }
-?>

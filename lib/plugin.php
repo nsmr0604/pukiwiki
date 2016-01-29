@@ -38,33 +38,33 @@ function exist_plugin($name)
 
 	if (preg_match('/^\w{1,64}$/', $name) &&
 	    file_exists(PLUGIN_DIR . $name . '.inc.php')) {
-	    	$exist[$name] = TRUE;
+	    	$exist[$name] = true;
 	    	$count[$name] = 1;
 		require_once(PLUGIN_DIR . $name . '.inc.php');
-		return TRUE;
+		return true;
 	} else {
-	    	$exist[$name] = FALSE;
+	    	$exist[$name] = false;
 	    	$count[$name] = 1;
-		return FALSE;
+		return false;
 	}
 }
 
 // Check if plugin API 'action' exists
 function exist_plugin_action($name) {
-	return	function_exists('plugin_' . $name . '_action') ? TRUE : exist_plugin($name) ?
-		function_exists('plugin_' . $name . '_action') : FALSE;
+	return	function_exists('plugin_' . $name . '_action') ? true : exist_plugin($name) ?
+		function_exists('plugin_' . $name . '_action') : false;
 }
 
 // Check if plugin API 'convert' exists
 function exist_plugin_convert($name) {
-	return	function_exists('plugin_' . $name . '_convert') ? TRUE : exist_plugin($name) ?
-		function_exists('plugin_' . $name . '_convert') : FALSE;
+	return	function_exists('plugin_' . $name . '_convert') ? true : exist_plugin($name) ?
+		function_exists('plugin_' . $name . '_convert') : false;
 }
 
 // Check if plugin API 'inline' exists
 function exist_plugin_inline($name) {
-	return	function_exists('plugin_' . $name . '_inline') ? TRUE : exist_plugin($name) ?
-		function_exists('plugin_' . $name . '_inline') : FALSE;
+	return	function_exists('plugin_' . $name . '_inline') ? true : exist_plugin($name) ?
+		function_exists('plugin_' . $name . '_inline') : false;
 }
 
 // Do init the plugin
@@ -79,7 +79,7 @@ function do_plugin_init($name)
 		// TRUE or FALSE or NULL (return nothing)
 		$checked[$name] = call_user_func($func);
 	} else {
-		$checked[$name] = NULL; // Not exist
+		$checked[$name] = null; // Not exist
 	}
 
 	return $checked[$name];
@@ -90,7 +90,7 @@ function do_plugin_action($name)
 {
 	if (! exist_plugin_action($name)) return array();
 
-	if(do_plugin_init($name) === FALSE)
+	if(do_plugin_init($name) === false)
 		die_message('Plugin init failed: ' . $name);
 
 	$retvar = call_user_func('plugin_' . $name . '_action');
@@ -109,13 +109,13 @@ function do_plugin_convert($name, $args = '')
 {
 	global $digest;
 
-	if(do_plugin_init($name) === FALSE)
+	if(do_plugin_init($name) === false)
 		return '[Plugin init failed: ' . $name . ']';
 
 	if (! PKWKEXP_DISABLE_MULTILINE_PLUGIN_HACK) {
 		// Multiline plugin?
 		$pos  = strpos($args, "\r"); // "\r" is just a delimiter
-		if ($pos !== FALSE) {
+		if ($pos !== false) {
 			$body = substr($args, $pos + 1);
 			$args = substr($args, 0, $pos);
 		}
@@ -134,10 +134,10 @@ function do_plugin_convert($name, $args = '')
 	$retvar  = call_user_func_array('plugin_' . $name . '_convert', $aryargs);
 	$digest  = $_digest; // Revert
 
-	if ($retvar === FALSE) {
+	if ($retvar === false) {
 		return htmlsc('#' . $name .
 			($args != '' ? '(' . $args . ')' : ''));
-	} else if (PKWK_ENCODING_HINT != '') {
+	} elseif (PKWK_ENCODING_HINT != '') {
 		// Insert a hidden field, supports idenrtifying text enconding
 		return preg_replace('/(<form[^>]*>)/', '$1 ' . "\n" .
 			'<div><input type="hidden" name="encode_hint" value="' .
@@ -152,7 +152,7 @@ function do_plugin_inline($name, $args, & $body)
 {
 	global $digest;
 
-	if(do_plugin_init($name) === FALSE)
+	if(do_plugin_init($name) === false)
 		return '[Plugin init failed: ' . $name . ']';
 
 	if ($args !== '') {
@@ -168,11 +168,10 @@ function do_plugin_inline($name, $args, & $body)
 	$retvar  = call_user_func_array('plugin_' . $name . '_inline', $aryargs);
 	$digest  = $_digest; // Revert
 
-	if($retvar === FALSE) {
+	if($retvar === false) {
 		// Do nothing
 		return htmlsc('&' . $name . ($args ? '(' . $args . ')' : '') . ';');
 	} else {
 		return $retvar;
 	}
 }
-?>

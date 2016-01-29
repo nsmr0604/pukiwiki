@@ -72,11 +72,11 @@ if ($trackback || $referer) {
 // Main
 
 $retvars = array();
-$is_cmd = FALSE;
+$is_cmd = false;
 if (isset($vars['cmd'])) {
-	$is_cmd  = TRUE;
+	$is_cmd  = true;
 	$plugin = & $vars['cmd'];
-} else if (isset($vars['plugin'])) {
+} elseif (isset($vars['plugin'])) {
 	$plugin = & $vars['plugin'];
 } else {
 	$plugin = '';
@@ -85,7 +85,7 @@ if ($plugin != '') {
 	if (exist_plugin_action($plugin)) {
 		// Found and exec
 		$retvars = do_plugin_action($plugin);
-		if ($retvars === FALSE) exit; // Done
+		if ($retvars === false) exit; // Done
 
 		if ($is_cmd) {
 			$base = isset($vars['page'])  ? $vars['page']  : '';
@@ -129,4 +129,3 @@ if (isset($retvars['body']) && $retvars['body'] != '') {
 // Output
 catbody($title, $page, $body);
 exit;
-?>

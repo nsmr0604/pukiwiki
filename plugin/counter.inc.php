@@ -67,7 +67,7 @@ function plugin_counter_get_count($page)
 
 	// Set default
 	$counters[$page] = $default;
-	$modify = FALSE;
+	$modify = false;
 
 	$file = COUNTER_DIR . encode($page) . PLUGIN_COUNTER_SUFFIX;
 	$fp = fopen($file, file_exists($file) ? 'r+' : 'w+')
@@ -82,7 +82,7 @@ function plugin_counter_get_count($page)
 	}
 	if ($counters[$page]['date'] != $default['date']) {
 		// New day
-		$modify = TRUE;
+		$modify = true;
 		$is_yesterday = ($counters[$page]['date'] == get_date('Y/m/d', strtotime('yesterday', UTIME)));
 		$counters[$page]['ip']        = $_SERVER['REMOTE_ADDR'];
 		$counters[$page]['date']      = $default['date'];
@@ -90,9 +90,9 @@ function plugin_counter_get_count($page)
 		$counters[$page]['today']     = 1;
 		$counters[$page]['total']++;
 
-	} else if ($counters[$page]['ip'] != $_SERVER['REMOTE_ADDR']) {
+	} elseif ($counters[$page]['ip'] != $_SERVER['REMOTE_ADDR']) {
 		// Not the same host
-		$modify = TRUE;
+		$modify = true;
 		$counters[$page]['ip']        = $_SERVER['REMOTE_ADDR'];
 		$counters[$page]['today']++;
 		$counters[$page]['total']++;
@@ -109,4 +109,3 @@ function plugin_counter_get_count($page)
 
 	return $counters[$page];
 }
-?>

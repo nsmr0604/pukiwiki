@@ -130,4 +130,3 @@ EOD;
 
 	return $string;
 }
-?>

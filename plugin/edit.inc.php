@@ -21,9 +21,9 @@ function plugin_edit_action()
 
 	if (isset($vars['preview']) || ($load_template_func && isset($vars['template']))) {
 		return plugin_edit_preview();
-	} else if (isset($vars['write'])) {
+	} elseif (isset($vars['write'])) {
 		return plugin_edit_write();
-	} else if (isset($vars['cancel'])) {
+	} elseif (isset($vars['cancel'])) {
 		return plugin_edit_cancel();
 	}
 
@@ -72,7 +72,7 @@ function plugin_edit_preview()
 		$postdata = drop_submit(convert_html($postdata));
 		$body .= '<div id="preview">' . $postdata . '</div>' . "\n";
 	}
-	$body .= edit_form($page, $vars['msg'], $vars['digest'], FALSE);
+	$body .= edit_form($page, $vars['msg'], $vars['digest'], false);
 
 	return array('msg'=>$_title_preview, 'body'=>$body);
 }
@@ -90,22 +90,22 @@ function plugin_edit_inline()
 	$args = func_get_args();
 
 	// {label}. Strip anchor tags only
-	$s_label = strip_htmltag(array_pop($args), FALSE);
+	$s_label = strip_htmltag(array_pop($args), false);
 
 	$page    = array_shift($args);
-	if ($page == NULL) $page = '';
-	$_noicon = $_nolabel = FALSE;
+	if ($page == null) $page = '';
+	$_noicon = $_nolabel = false;
 	foreach($args as $arg){
 		switch(strtolower($arg)){
 		case ''       :                   break;
-		case 'nolabel': $_nolabel = TRUE; break;
-		case 'noicon' : $_noicon  = TRUE; break;
+		case 'nolabel': $_nolabel = true; break;
+		case 'noicon' : $_noicon  = true; break;
 		default       : return $usage;
 		}
 	}
 
 	// Separate a page-name and a fixed anchor
-	list($s_page, $id, $editable) = anchor_explode($page, TRUE);
+	list($s_page, $id, $editable) = anchor_explode($page, true);
 
 	// Default: This one
 	if ($s_page == '') $s_page = isset($vars['page']) ? $vars['page'] : '';
@@ -199,7 +199,7 @@ function plugin_edit_write()
 		$retvars['msg' ] = $_title_collided;
 		$retvars['body'] = ($auto ? $_msg_collided_auto : $_msg_collided) . "\n";
 		$retvars['body'] .= $do_update_diff_table;
-		$retvars['body'] .= edit_form($page, $postdata_input, $oldpagemd5, FALSE);
+		$retvars['body'] .= edit_form($page, $postdata_input, $oldpagemd5, false);
 		return $retvars;
 	}
 
@@ -232,7 +232,7 @@ function plugin_edit_write()
 	if ($notimeupdate > 1 && $notimestamp && ! pkwk_login($vars['pass'])) {
 		// Enable only administrator & password error
 		$retvars['body']  = '<p><strong>' . $_msg_invalidpass . '</strong></p>' . "\n";
-		$retvars['body'] .= edit_form($page, $msg, $digest, FALSE);
+		$retvars['body'] .= edit_form($page, $msg, $digest, false);
 		return $retvars;
 	}
 
@@ -250,5 +250,3 @@ function plugin_edit_cancel()
 	header('Location: ' . get_script_uri() . '?' . rawurlencode($vars['page']));
 	exit;
 }
-
-?>

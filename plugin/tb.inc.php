@@ -51,7 +51,7 @@ function plugin_tb_action()
 			$pages = get_existpages(TRACKBACK_DIR, '.txt');
 			if (! empty($pages)) {
 				return array('msg'=>'Trackback list',
-					'body'=>page_list($pages, 'read', FALSE));
+					'body'=>page_list($pages, 'read', false));
 			} else {
 				return array('msg'=>'', 'body'=>'');
 			}
@@ -75,7 +75,7 @@ function plugin_tb_save($url, $tb_id)
 	if (! is_writable(TRACKBACK_DIR)) return array(PLUGIN_TB_ERROR, 'Permission denied: TRACKBACK_DIR');
 
 	$page = tb_id2page($tb_id);
-	if ($page === FALSE) return array(PLUGIN_TB_ERROR, 'TrackBack ID is invalid.');
+	if ($page === false) return array(PLUGIN_TB_ERROR, 'TrackBack ID is invalid.');
 
 	// URL validation (maybe worse of processing time limit)
 	$result = http_request($url, 'HEAD');
@@ -133,13 +133,13 @@ function plugin_tb_output_rsslist($tb_id)
 	global $script, $vars, $entity_pattern;
 
 	$page = tb_id2page($tb_id);
-	if ($page === FALSE) return FALSE;
+	if ($page === false) return false;
 
 	$items = '';
 	foreach (tb_get(tb_get_filename($page)) as $arr) {
 		// _utime_, title, excerpt, _blog_name_
 		array_shift($arr); // Cut utime
-		list ($url, $title, $excerpt) = array_map(
+		list($url, $title, $excerpt) = array_map(
 			create_function('$a', 'return htmlspecialchars($a);'), $arr);
 		$items .= <<<EOD
 
@@ -195,7 +195,7 @@ function plugin_tb_output_htmllist($tb_id)
 	global $_tb_date;
 
 	$page = tb_id2page($tb_id);
-	if ($page === FALSE) return FALSE;
+	if ($page === false) return false;
 
 	$data = tb_get(tb_get_filename($page));
 
@@ -206,7 +206,7 @@ function plugin_tb_output_htmllist($tb_id)
 	foreach ($data as $x) {
 		if (count($x) != 5) continue; // Ignore incorrect record
 
-		list ($time, $url, $title, $excerpt, $blog_name) = $x;
+		list($time, $url, $title, $excerpt, $blog_name) = $x;
 		if ($title == '') $title = 'no title';
 
 		$time = date($_tb_date, $time + LOCALZONE); // May 2, 2003 11:25 AM
@@ -236,4 +236,3 @@ EOD;
 	echo mb_convert_encoding($msg, 'UTF-8', SOURCE_ENCODING);
 	exit;
 }
-?>

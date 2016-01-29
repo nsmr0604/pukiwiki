@@ -21,7 +21,7 @@ function plugin_versionlist_action()
 function plugin_versionlist_convert()
 {
 	if (PKWK_SAFE_MODE) return ''; // Show nothing
-	
+
 	/* 探索ディレクトリ設定 */
 	$SCRIPT_DIR = array('./');
 	if (LIB_DIR   != './') array_push($SCRIPT_DIR, LIB_DIR);
@@ -39,13 +39,13 @@ function plugin_versionlist_convert()
 		}
 		while($file = $dir->read())
 		{
-			if (!preg_match("/\.(php|lng|css|js)$/i",$file))
+			if (!preg_match("/\.(php|lng|css|js)$/i", $file))
 			{
 				continue;
 			}
-			$data = join('',file($sdir.$file));
+			$data = join('', file($sdir.$file));
 			$comment = array('file'=>htmlsc($sdir.$file),'rev'=>'','date'=>'');
-			if (preg_match('/\$'.'Id: (.+),v (\d+\.\d+) (\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2})/',$data,$matches))
+			if (preg_match('/\$'.'Id: (.+),v (\d+\.\d+) (\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2})/', $data, $matches))
 			{
 //				$comment['file'] = htmlsc($sdir.$matches[1]);
 				$comment['rev'] = htmlsc($matches[2]);
@@ -88,4 +88,3 @@ $retval
 EOD;
 	return $retval;
 }
-?>

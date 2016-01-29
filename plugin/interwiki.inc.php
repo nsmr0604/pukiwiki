@@ -15,7 +15,7 @@ function plugin_interwiki_action()
 		return plugin_interwiki_invalid();
 
 	$url = get_interwiki_url($match[2], $match[3]);
-	if ($url === FALSE) return plugin_interwiki_invalid();
+	if ($url === false) return plugin_interwiki_invalid();
 
 	pkwk_headers_sent();
 	header('Location: ' . $url);
@@ -32,4 +32,3 @@ function plugin_interwiki_invalid()
 			make_pagelink('InterWikiName')),
 			$_msg_invalidiwn));
 }
-?>

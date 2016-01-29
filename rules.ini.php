@@ -42,5 +42,3 @@ $str_rules = array(
 );
 
 unset($page_array);
-
-?>

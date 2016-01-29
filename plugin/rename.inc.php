@@ -42,16 +42,16 @@ function plugin_rename_action()
 		if ($refer == '') {
 			return plugin_rename_phase1();
 
-		} else if (! is_page($refer)) {
+		} elseif (! is_page($refer)) {
 			return plugin_rename_phase1('notpage', $refer);
 
-		} else if ($refer == $whatsnew) {
+		} elseif ($refer == $whatsnew) {
 			return plugin_rename_phase1('norename', $refer);
 
-		} else if ($page == '' || $page == $refer) {
+		} elseif ($page == '' || $page == $refer) {
 			return plugin_rename_phase2();
 
-		} else if (! is_pagename($page)) {
+		} elseif (! is_pagename($page)) {
 			return plugin_rename_phase2('notvalid');
 
 		} else {
@@ -224,7 +224,7 @@ function plugin_rename_phase3($pages)
 	$pass = plugin_rename_getvar('pass');
 	if ($pass != '' && pkwk_login($pass)) {
 		return plugin_rename_proceed($pages, $files, $exists);
-	} else if ($pass != '') {
+	} elseif ($pass != '') {
 		$msg = plugin_rename_err('adminpass');
 	}
 
@@ -424,4 +424,3 @@ function plugin_rename_getselecttag($page)
 EOD;
 
 }
-?>

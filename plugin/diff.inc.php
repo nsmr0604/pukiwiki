@@ -52,7 +52,7 @@ function plugin_diff_view($page)
 				$r_page . '">' . str_replace('$1', $s_page, $_title_diff_delete) . '</a></li>';
 		}
 		$msg = '<pre>' . diff_style_to_css(htmlsc(join('', file($filename)))) . '</pre>' . "\n";
-	} else if ($is_page) {
+	} elseif ($is_page) {
 		$diffdata = trim(htmlsc(join('', get_source($page))));
 		$msg = '<pre><span class="diff_added">' . $diffdata . '</span></pre>' . "\n";
 	} else {
@@ -110,4 +110,3 @@ EOD;
 
 	return array('msg'=>$_title_diff_delete, 'body'=>$body);
 }
-?>

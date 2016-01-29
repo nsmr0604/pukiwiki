@@ -8,4 +8,3 @@ function plugin_contents_convert()
 	// This character string is substituted later.
 	return '<#_contents_>';
 }
-?>

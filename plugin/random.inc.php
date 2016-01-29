@@ -51,4 +51,3 @@ function plugin_random_action()
 
 	return array('body'=>'','msg'=>'');
 }
-?>

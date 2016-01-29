@@ -16,7 +16,7 @@ define('PKWK_MAXSHOW_CACHE', 'recent.dat');
 define('PKWK_AUTOLINK_REGEX_CACHE', 'autolink.dat');
 
 // Get source(wiki text) data of the page
-function get_source($page = NULL, $lock = TRUE, $join = FALSE)
+function get_source($page = null, $lock = true, $join = false)
 {
 	$result = $join ? '' : array();
 
@@ -25,7 +25,7 @@ function get_source($page = NULL, $lock = TRUE, $join = FALSE)
 
 		if ($lock) {
 			$fp = @fopen($path, 'r');
-			if ($fp == FALSE) return $result;
+			if ($fp == false) return $result;
 			flock($fp, LOCK_SH);
 		}
 
@@ -60,7 +60,7 @@ function get_filename($page)
 }
 
 // Put a data(wiki text) into a physical file(diff, backup, text)
-function page_write($page, $postdata, $notimestamp = FALSE)
+function page_write($page, $postdata, $notimestamp = false)
 {
 	global $trackback;
 
@@ -98,7 +98,7 @@ function make_str_rules($source)
 	$lines = explode("\n", $source);
 	$count = count($lines);
 
-	$modify    = TRUE;
+	$modify    = true;
 	$multiline = 0;
 	$matches   = array();
 	for ($i = 0; $i < $count; $i++) {
@@ -113,7 +113,7 @@ function make_str_rules($source)
 			    $multiline == 0 &&
 			    preg_match('/#[^{]*(\{\{+)\s*$/', $line, $matches)) {
 			    	// Multiline convert plugin start
-				$modify    = FALSE;
+				$modify    = false;
 				$multiline = strlen($matches[1]); // Set specific number
 			}
 		} else {
@@ -121,11 +121,11 @@ function make_str_rules($source)
 			    $multiline != 0 &&
 			    preg_match('/^\}{' . $multiline . '}\s*$/', $line)) {
 			    	// Multiline convert plugin end
-				$modify    = TRUE;
+				$modify    = true;
 				$multiline = 0;
 			}
 		}
-		if ($modify === FALSE) continue;
+		if ($modify === false) continue;
 
 		// Replace with $str_rules
 		foreach ($str_rules as $pattern => $replacement)
@@ -143,7 +143,7 @@ function make_str_rules($source)
 
 	// Multiline part has no stopper
 	if (! PKWKEXP_DISABLE_MULTILINE_PLUGIN_HACK &&
-	    $modify === FALSE && $multiline != 0)
+	    $modify === false && $multiline != 0)
 		$lines[] = str_repeat('}', $multiline);
 
 	return implode("\n", $lines);
@@ -154,35 +154,35 @@ function generate_fixed_heading_anchor_id($seed)
 {
 	// A random alphabetic letter + 7 letters of random strings from md()
 	return chr(mt_rand(ord('a'), ord('z'))) .
-		substr(md5(uniqid(substr($seed, 0, 100), TRUE)),
+		substr(md5(uniqid(substr($seed, 0, 100), true)),
 		mt_rand(0, 24), 7);
 }
 
 // Read top N lines as an array
 // (Use PHP file() function if you want to get ALL lines)
-function file_head($file, $count = 1, $lock = TRUE, $buffer = 8192)
+function file_head($file, $count = 1, $lock = true, $buffer = 8192)
 {
 	$array = array();
 
 	$fp = @fopen($file, 'r');
-	if ($fp === FALSE) return FALSE;
+	if ($fp === false) return false;
 	set_file_buffer($fp, 0);
 	if ($lock) flock($fp, LOCK_SH);
 	rewind($fp);
 	$index = 0;
 	while (! feof($fp)) {
 		$line = fgets($fp, $buffer);
-		if ($line != FALSE) $array[] = $line;
+		if ($line != false) $array[] = $line;
 		if (++$index >= $count) break;
 	}
 	if ($lock) flock($fp, LOCK_UN);
-	if (! fclose($fp)) return FALSE;
+	if (! fclose($fp)) return false;
 
 	return $array;
 }
 
 // Output to a file
-function file_write($dir, $page, $str, $notimestamp = FALSE)
+function file_write($dir, $page, $str, $notimestamp = false)
 {
 	global $_msg_invalidiwn, $notify, $notify_diff_only, $notify_subject;
 	global $whatsdeleted, $maxshow_deleted;
@@ -211,11 +211,11 @@ function file_write($dir, $page, $str, $notimestamp = FALSE)
 		lastmodified_add($whatsdeleted, $page);
 
 		// Clear is_page() cache
-		is_page($page, TRUE);
+		is_page($page, true);
 
 		return;
 
-	} else if ($dir == DIFF_DIR && $str === " \n") {
+	} elseif ($dir == DIFF_DIR && $str === " \n") {
 		return; // Ignore null posting for DIFF_DIR
 	}
 
@@ -227,10 +227,10 @@ function file_write($dir, $page, $str, $notimestamp = FALSE)
 		            str_replace('$2', 'WikiName', $_msg_invalidiwn)));
 
 	$str = rtrim(preg_replace('/' . "\r" . '/', '', $str)) . "\n";
-	$timestamp = ($file_exists && $notimestamp) ? filemtime($file) : FALSE;
+	$timestamp = ($file_exists && $notimestamp) ? filemtime($file) : false;
 
 	$fp = fopen($file, 'a') or die('fopen() failed: ' .
-		htmlsc(basename($dir) . '/' . encode($page) . '.txt') .	
+		htmlsc(basename($dir) . '/' . encode($page) . '.txt') .
 		'<br />' . "\n" .
 		'Maybe permission is not writable or filename is too long');
 	set_file_buffer($fp, 0);
@@ -246,24 +246,24 @@ function file_write($dir, $page, $str, $notimestamp = FALSE)
 	// Optional actions
 	if ($dir == DATA_DIR) {
 		// Update RecentChanges (Add or renew the $page)
-		if ($timestamp === FALSE) lastmodified_add($page);
+		if ($timestamp === false) lastmodified_add($page);
 
 		// Command execution per update
 		if (defined('PKWK_UPDATE_EXEC') && PKWK_UPDATE_EXEC)
 			system(PKWK_UPDATE_EXEC . ' > /dev/null &');
 
-	} else if ($dir == DIFF_DIR && $notify) {
+	} elseif ($dir == DIFF_DIR && $notify) {
 		if ($notify_diff_only) $str = preg_replace('/^[^-+].*\n/m', '', $str);
 		$footer['ACTION'] = 'Page update';
 		$footer['PAGE']   = & $page;
 		$footer['URI']    = get_script_uri() . '?' . rawurlencode($page);
-		$footer['USER_AGENT']  = TRUE;
-		$footer['REMOTE_ADDR'] = TRUE;
+		$footer['USER_AGENT']  = true;
+		$footer['REMOTE_ADDR'] = true;
 		pkwk_mail_notify($notify_subject, $str, $footer) or
 			die('pkwk_mail_notify(): Failed');
 	}
 
-	is_page($page, TRUE); // Clear is_page() cache
+	is_page($page, true); // Clear is_page() cache
 }
 
 // Update RecentDeleted
@@ -335,7 +335,7 @@ function lastmodified_add($update = '', $remove = '')
 
 	// Read (keep the order of the lines)
 	$recent_pages = $matches = array();
-	foreach(file_head($file, $maxshow + PKWK_MAXSHOW_ALLOWANCE, FALSE) as $line)
+	foreach(file_head($file, $maxshow + PKWK_MAXSHOW_ALLOWANCE, false) as $line)
 		if (preg_match('/^([0-9]+)\t(.+)/', $line, $matches))
 			$recent_pages[$matches[2]] = $matches[1];
 
@@ -478,7 +478,7 @@ function put_lastmodified()
 }
 
 // Get elapsed date of the page
-function get_pg_passage($page, $sw = TRUE)
+function get_pg_passage($page, $sw = true)
 {
 	global $show_passage;
 	if (! $show_passage) return '';
@@ -490,7 +490,7 @@ function get_pg_passage($page, $sw = TRUE)
 }
 
 // Last-Modified header
-function header_lastmod($page = NULL)
+function header_lastmod($page = null)
 {
 	global $lastmod;
 
@@ -532,10 +532,10 @@ function get_readings()
 	$pages = get_existpages();
 
 	$readings = array();
-	foreach ($pages as $page) 
+	foreach ($pages as $page)
 		$readings[$page] = '';
 
-	$deletedPage = FALSE;
+	$deletedPage = false;
 	$matches = array();
 	foreach (get_source($pagereading_config_page) as $line) {
 		$line = chop($line);
@@ -545,7 +545,7 @@ function get_readings()
 				$readings[$matches[1]] = $matches[2];
 			} else {
 				// This page seems deleted
-				$deletedPage = TRUE;
+				$deletedPage = true;
 			}
 		}
 	}
@@ -554,10 +554,10 @@ function get_readings()
 	if($pagereading_enable) {
 
 		// Check there's non-clear-pronouncing page
-		$unknownPage = FALSE;
+		$unknownPage = false;
 		foreach ($readings as $page => $reading) {
 			if($reading == '') {
-				$unknownPage = TRUE;
+				$unknownPage = true;
 				break;
 			}
 		}
@@ -581,7 +581,7 @@ function get_readings()
 
 				$chasen = "$pagereading_chasen_path -F %y $tmpfname";
 				$fp     = popen($chasen, 'r');
-				if($fp === FALSE) {
+				if($fp === false) {
 					unlink($tmpfname);
 					die_message('ChaSen execution failed: ' . $chasen);
 				}
@@ -617,7 +617,7 @@ function get_readings()
 
 				$kakasi = "$pagereading_kakasi_path -kK -HK -JK < $tmpfname";
 				$fp     = popen($kakasi, 'r');
-				if($fp === FALSE) {
+				if($fp === false) {
 					unlink($tmpfname);
 					die_message('KAKASI execution failed: ' . $kakasi);
 				}
@@ -714,7 +714,7 @@ function links_get_related($page)
 
 // _If needed_, re-create the file to change/correct ownership into PHP's
 // NOTE: Not works for Windows
-function pkwk_chown($filename, $preserve_time = TRUE)
+function pkwk_chown($filename, $preserve_time = true)
 {
 	static $php_uid; // PHP's UID
 
@@ -738,7 +738,7 @@ function pkwk_chown($filename, $preserve_time = TRUE)
 		die('pkwk_chown(): stat() failed for: '  . basename(htmlsc($filename)));
 	if ($stat[4] === $php_uid) {
 		// NOTE: Windows always here
-		$result = TRUE; // Seems the same UID. Nothing to do
+		$result = true; // Seems the same UID. Nothing to do
 	} else {
 		$tmp = $filename . '.' . getmypid() . '.tmp';
 
@@ -755,13 +755,13 @@ function pkwk_chown($filename, $preserve_time = TRUE)
 		//   * @unlink() before rename() is for Windows but here's for Unix only
 		flock($ffile, LOCK_EX) or die('pkwk_chown(): flock() failed');
 		$result = touch($tmp) && copy($filename, $tmp) &&
-			($preserve_time ? (touch($tmp, $stat[9], $stat[8]) || touch($tmp, $stat[9])) : TRUE) &&
+			($preserve_time ? (touch($tmp, $stat[9], $stat[8]) || touch($tmp, $stat[9])) : true) &&
 			rename($tmp, $filename);
 		flock($ffile, LOCK_UN) or die('pkwk_chown(): flock() failed');
 
 		fclose($ffile) or die('pkwk_chown(): fclose() failed');
 
-		if ($result === FALSE) @unlink($tmp);
+		if ($result === false) @unlink($tmp);
 	}
 
 	// Unlock for pkwk_chown()
@@ -772,13 +772,13 @@ function pkwk_chown($filename, $preserve_time = TRUE)
 }
 
 // touch() with trying pkwk_chown()
-function pkwk_touch_file($filename, $time = FALSE, $atime = FALSE)
+function pkwk_touch_file($filename, $time = false, $atime = false)
 {
 	// Is the owner incorrected and unable to correct?
 	if (! file_exists($filename) || pkwk_chown($filename)) {
-		if ($time === FALSE) {
+		if ($time === false) {
 			$result = touch($filename);
-		} else if ($atime === FALSE) {
+		} elseif ($atime === false) {
 			$result = touch($filename, $time);
 		} else {
 			$result = touch($filename, $time, $atime);
@@ -789,4 +789,3 @@ function pkwk_touch_file($filename, $time = FALSE, $atime = FALSE)
 			htmlsc(basename($filename)));
 	}
 }
-?>

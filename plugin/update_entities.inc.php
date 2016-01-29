@@ -57,8 +57,8 @@ function plugin_update_entities_action()
  </div>
 </form>
 EOD;
-	} else if ($vars['action'] == 'update') {
-		plugin_update_entities_create(TRUE);
+	} elseif ($vars['action'] == 'update') {
+		plugin_update_entities_create(true);
 		$msg  = & $_entities_messages['title_update'];
 		$body = & $_entities_messages['msg_done'    ];
 	} else {
@@ -69,11 +69,11 @@ EOD;
 }
 
 // Remove &amp; => amp
-function plugin_update_entities_strtr($entity){
+function plugin_update_entities_strtr($entity) {
 	return strtr($entity, array('&'=>'', ';'=>''));
 }
 
-function plugin_update_entities_create($do = FALSE)
+function plugin_update_entities_create($do = false)
 {
 	$files = array('xhtml-lat1.ent', 'xhtml-special.ent', 'xhtml-symbol.ent');
 	
@@ -117,4 +117,3 @@ function plugin_update_entities_create($do = FALSE)
 
 	return $items;
 }
-?>

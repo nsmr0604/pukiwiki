@@ -115,15 +115,15 @@ function mb_detect_encoding($str, $encoding_list = '')
 }
 
 // mb_detect_order --  文字エンコーディング検出順序の設定/取得
-function mb_detect_order($encoding_list = NULL)
+function mb_detect_order($encoding_list = null)
 {
 	static $list = array();
 
 	// 注: 他の関数に影響を及ぼさない。呼んでも無意味。
-	if ($encoding_list === NULL) return $list;
+	if ($encoding_list === null) return $list;
 
 	$list = is_array($encoding_list) ? $encoding_list : explode(',', $encoding_list);
-	return TRUE;
+	return true;
 }
 
 // mb_encode_mimeheader -- MIMEヘッダの文字列をエンコードする
@@ -147,14 +147,14 @@ function mb_internal_encoding($encoding = '')
 }
 
 // mb_language --  カレントの言語を設定/取得
-function mb_language($language = NULL)
+function mb_language($language = null)
 {
-	static $mb_language = FALSE;
+	static $mb_language = false;
 
-	if ($language === NULL) return $mb_language;
+	if ($language === null) return $mb_language;
 	$mb_language = $language;
 
-	return TRUE; // 注: 常にTRUEを返す
+	return true; // 注: 常にTRUEを返す
 }
 
 // mb_strimwidth -- 指定した幅で文字列を丸める
@@ -196,9 +196,8 @@ function mb_strlen($str, $encoding = '')
 }
 
 // mb_substr -- 文字列の一部を得る
-function mb_substr($str, $start, $length = NULL, $encoding = '')
+function mb_substr($str, $start, $length = null, $encoding = '')
 {
 	// 注: EUC-JP専用, $encodingを使用しない
-	return jsubstr($str, $start, ($length === NULL) ? jstrlen($str) : $length);
+	return jsubstr($str, $start, ($length === null) ? jstrlen($str) : $length);
 }
-?>

@@ -38,7 +38,7 @@ function plugin_popular_convert()
 	$except = '';
 
 	$array = func_get_args();
-	$today = FALSE;
+	$today = false;
 	switch (func_num_args()) {
 	case 3: if ($array[2]) $today = get_date('Y/m/d');
 	case 2: $except = $array[1];
@@ -70,7 +70,7 @@ function plugin_popular_convert()
 	asort($counters, SORT_NUMERIC);
 
 	// BugTrack2/106: Only variables can be passed by reference from PHP 5.0.5
-	$counters = array_reverse($counters, TRUE); // with array_splice()
+	$counters = array_reverse($counters, true); // with array_splice()
 	$counters = array_splice($counters, 0, $max);
 
 	$items = '';
@@ -83,7 +83,7 @@ function plugin_popular_convert()
 			$s_page = htmlsc($page);
 			if ($page == $vars['page']) {
 				// No need to link itself, notifies where you just read
-				$pg_passage = get_pg_passage($page,FALSE);
+				$pg_passage = get_pg_passage($page, false);
 				$items .= ' <li><span title="' . $s_page . ' ' . $pg_passage . '">' .
 					$s_page . '<span class="counter">(' . $count .
 					')</span></span></li>' . "\n";
@@ -98,4 +98,3 @@ function plugin_popular_convert()
 
 	return sprintf($today ? $_popular_plugin_today_frame : $_popular_plugin_frame, count($counters), $items);
 }
-?>

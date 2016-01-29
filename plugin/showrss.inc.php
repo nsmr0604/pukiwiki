@@ -41,7 +41,7 @@ function plugin_showrss_convert()
 	if ($num == 0) return PLUGIN_SHOWRSS_USAGE . '<br />' . "\n";
 
 	$argv = func_get_args();
-	$timestamp = FALSE;
+	$timestamp = false;
 	$cachehour = 0;
 	$template = $uri = '';
 	switch ($num) {
@@ -60,7 +60,7 @@ function plugin_showrss_convert()
 		return '#showrss: Seems not URI: ' . htmlsc($uri) . '<br />' . "\n";
 
 	list($rss, $time) = plugin_showrss_get_rss($uri, $cachehour);
-	if ($rss === FALSE) return '#showrss: Failed fetching RSS from the server<br />' . "\n";
+	if ($rss === false) return '#showrss: Failed fetching RSS from the server<br />' . "\n";
 
 	$time = '';
 	if ($timestamp > 0) {
@@ -75,10 +75,10 @@ function plugin_showrss_convert()
 // Create HTML from RSS array()
 class ShowRSS_html
 {
-	var $items = array();
-	var $class = '';
+	public $items = array();
+	public $class = '';
 
-	function ShowRSS_html($rss)
+	public function ShowRSS_html($rss)
 	{
 		foreach ($rss as $date=>$items) {
 			foreach ($items as $item) {
@@ -92,22 +92,22 @@ class ShowRSS_html
 		}
 	}
 
-	function format_link($link)
+	public function format_link($link)
 	{
 		return $link . '<br />' . "\n";
 	}
 
-	function format_list($date, $str)
+	public function format_list($date, $str)
 	{
 		return $str;
 	}
 
-	function format_body($str)
+	public function format_body($str)
 	{
 		return $str;
 	}
 
-	function toString($timestamp)
+	public function toString($timestamp)
 	{
 		$retval = '';
 		foreach ($this->items as $date=>$items)
@@ -123,26 +123,26 @@ EOD;
 
 class ShowRSS_html_menubar extends ShowRSS_html
 {
-	var $class = ' class="small"';
+	public $class = ' class="small"';
 
-	function format_link($link) {
+	public function format_link($link) {
 		return '<li>' . $link . '</li>' . "\n";
 	}
 
-	function format_body($str) {
+	public function format_body($str) {
 		return '<ul class="recent_list">' . "\n" . $str . '</ul>' . "\n";
 	}
 }
 
 class ShowRSS_html_recent extends ShowRSS_html
 {
-	var $class = ' class="small"';
+	public $class = ' class="small"';
 
-	function format_link($link) {
+	public function format_link($link) {
 		return '<li>' . $link . '</li>' . "\n";
 	}
 
-	function format_list($date, $str) {
+	public function format_list($date, $str) {
 		return '<strong>' . $date . '</strong>' . "\n" .
 			'<ul class="recent_list">' . "\n" . $str . '</ul>' . "\n";
 	}
@@ -152,7 +152,7 @@ class ShowRSS_html_recent extends ShowRSS_html
 function plugin_showrss_get_rss($target, $cachehour)
 {
 	$buf  = '';
-	$time = NULL;
+	$time = null;
 	if ($cachehour) {
 		// Remove expired cache
 		plugin_showrss_cache_expire($cachehour);
@@ -165,11 +165,11 @@ function plugin_showrss_get_rss($target, $cachehour)
 		}
 	}
 
-	if ($time === NULL) {
+	if ($time === null) {
 		// Newly get RSS
 		$data = http_request($target);
 		if ($data['rc'] !== 200)
-			return array(FALSE, 0);
+			return array(false, 0);
 
 		$buf = $data['data'];
 		$time = UTIME;
@@ -192,7 +192,7 @@ function plugin_showrss_cache_expire($cachehour)
 {
 	$expire = $cachehour * 60 * 60; // Hour
 	$dh = dir(CACHE_DIR);
-	while (($file = $dh->read()) !== FALSE) {
+	while (($file = $dh->read()) !== false) {
 		if (substr($file, -4) != '.tmp') continue;
 		$file = CACHE_DIR . $file;
 		$last = time() - filemtime($file);
@@ -204,17 +204,17 @@ function plugin_showrss_cache_expire($cachehour)
 // Get RSS and array() them
 class ShowRSS_XML
 {
-	var $items;
-	var $item;
-	var $is_item;
-	var $tag;
-	var $encoding;
+	public $items;
+	public $item;
+	public $is_item;
+	public $tag;
+	public $encoding;
 
-	function parse($buf)
+	public function parse($buf)
 	{
 		$this->items   = array();
 		$this->item    = array();
-		$this->is_item = FALSE;
+		$this->is_item = false;
 		$this->tag     = '';
 
 		// Detect encoding
@@ -245,7 +245,7 @@ class ShowRSS_XML
 		return $this->items;
 	}
 
-	function escape($str)
+	public function escape($str)
 	{
 		// Unescape already-escaped chars (&lt;, &gt;, &amp;, ...) in RSS body before htmlsc()
 		$str = strtr($str, array_flip(get_html_translation_table(ENT_COMPAT)));
@@ -257,17 +257,17 @@ class ShowRSS_XML
 	}
 
 	// Tag start
-	function start_element($parser, $name, $attrs)
+	public function start_element($parser, $name, $attrs)
 	{
 		if ($this->is_item) {
 			$this->tag     = $name;
-		} else if ($name == 'ITEM') {
-			$this->is_item = TRUE;
+		} elseif ($name == 'ITEM') {
+			$this->is_item = true;
 		}
 	}
 
 	// Tag end
-	function end_element($parser, $name)
+	public function end_element($parser, $name)
 	{
 		if (! $this->is_item || $name != 'ITEM') return;
 
@@ -277,10 +277,10 @@ class ShowRSS_XML
 		if (isset($item['DC:DATE'])) {
 			$time = plugin_showrss_get_timestamp($item['DC:DATE']);
 			
-		} else if (isset($item['PUBDATE'])) {
+		} elseif (isset($item['PUBDATE'])) {
 			$time = plugin_showrss_get_timestamp($item['PUBDATE']);
 			
-		} else if (isset($item['DESCRIPTION']) &&
+		} elseif (isset($item['DESCRIPTION']) &&
 			($description = trim($item['DESCRIPTION'])) != '' &&
 			($time = strtotime($description)) != -1) {
 				$time -= LOCALZONE;
@@ -292,10 +292,10 @@ class ShowRSS_XML
 		$date = get_date('Y-m-d', $item['_TIMESTAMP']);
 
 		$this->items[$date][] = $item;
-		$this->is_item        = FALSE;
+		$this->is_item        = false;
 	}
 
-	function character_data($parser, $data)
+	public function character_data($parser, $data)
 	{
 		if (! $this->is_item) return;
 		if (! isset($this->item[$this->tag])) $this->item[$this->tag] = '';
@@ -313,7 +313,7 @@ function plugin_showrss_get_timestamp($str)
 		$time = strtotime($matches[1] . ' ' . $matches[2]);
 		if ($time == -1) {
 			$time = UTIME;
-		} else if ($matches[3]) {
+		} elseif ($matches[3]) {
 			$diff = ($matches[5] * 60 + $matches[6]) * 60;
 			$time += ($matches[4] == '-' ? $diff : -$diff);
 		}
@@ -323,4 +323,3 @@ function plugin_showrss_get_timestamp($str)
 		return ($time == -1) ? UTIME : $time - LOCALZONE;
 	}
 }
-?>

@@ -15,14 +15,14 @@ function plugin_calendar2_convert()
 	$date_str = get_date('Ym');
 	$base     = strip_bracket($vars['page']);
 
-	$today_view = TRUE;
+	$today_view = true;
 	if (func_num_args()) {
 		$args = func_get_args();
 		foreach ($args as $arg) {
 			if (is_numeric($arg) && strlen($arg) == 6) {
 				$date_str = $arg;
-			} else if ($arg == 'off') {
-				$today_view = FALSE;
+			} elseif ($arg == 'off') {
+				$today_view = false;
 			} else {
 				$base = strip_bracket($arg);
 			}
@@ -116,9 +116,9 @@ EOD;
 		$style = 'style_td_day'; // Weekday
 		if (! $other_month && ($day == $today['mday']) && ($m_num == $today['mon']) && ($year == $today['year'])) { // Today
 			$style = 'style_td_today';
-		} else if ($wday == 0) { // Sunday
+		} elseif ($wday == 0) { // Sunday
 			$style = 'style_td_sun';
-		} else if ($wday == 6) { //  Saturday
+		} elseif ($wday == 6) { //  Saturday
 			$style = 'style_td_sat';
 		}
 
@@ -185,7 +185,7 @@ function plugin_calendar2_action()
 	$date = $vars['date'];
 
 	if ($date == '') $date = get_date('Ym');
-	$yy = sprintf('%04d.%02d', substr($date, 0, 4),substr($date, 4, 2));
+	$yy = sprintf('%04d.%02d', substr($date, 0, 4), substr($date, 4, 2));
 
 	$aryargs = array($vars['page'], $date);
 	$s_page  = htmlsc($vars['page']);
@@ -197,4 +197,3 @@ function plugin_calendar2_action()
 
 	return $ret;
 }
-?>

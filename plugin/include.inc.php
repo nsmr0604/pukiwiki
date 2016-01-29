@@ -42,7 +42,7 @@
 // ----
 
 // Default value of 'title|notitle' option
-define('PLUGIN_INCLUDE_WITH_TITLE', TRUE);	// Default: TRUE(title)
+define('PLUGIN_INCLUDE_WITH_TITLE', true);	// Default: TRUE(title)
 
 // Max pages allowed to be included at a time
 define('PLUGIN_INCLUDE_MAX', 4);
@@ -59,11 +59,11 @@ function plugin_include_convert()
 	if (func_num_args() == 0) return PLUGIN_INCLUDE_USAGE . '<br />' . "\n";;
 
 	// $menubar will already be shown via menu plugin
-	if (! isset($included[$menubar])) $included[$menubar] = TRUE;
+	if (! isset($included[$menubar])) $included[$menubar] = true;
 
 	// Loop yourself
 	$root = isset($vars['page']) ? $vars['page'] : '';
-	$included[$root] = TRUE;
+	$included[$root] = true;
 
 	// Get arguments
 	$args = func_get_args();
@@ -72,8 +72,8 @@ function plugin_include_convert()
 	$with_title = PLUGIN_INCLUDE_WITH_TITLE;
 	if (isset($args[0])) {
 		switch(strtolower(array_shift($args))) {
-		case 'title'  : $with_title = TRUE;  break;
-		case 'notitle': $with_title = FALSE; break;
+		case 'title'  : $with_title = true;  break;
+		case 'notitle': $with_title = false; break;
 		}
 	}
 
@@ -93,7 +93,7 @@ function plugin_include_convert()
 	}
 
 	// One page, only one time, at a time
-	$included[$page] = TRUE;
+	$included[$page] = true;
 
 	// Include A page, that probably includes another pages
 	$get['page'] = $post['page'] = $vars['page'] = $page;
@@ -118,4 +118,3 @@ function plugin_include_convert()
 
 	return $body;
 }
-?>

@@ -20,7 +20,7 @@ function plugin_yetlist_action()
 		return $retval;
 	}
 
-	$empty = TRUE;
+	$empty = true;
 
 	// Load .ref files and Output
 	$script      = get_script_uri();
@@ -35,7 +35,7 @@ function plugin_yetlist_action()
 		// Diff
 		$refer = array_diff($refer, preg_grep($refer_regex, $refer));
 		if (! empty($refer)) {
-			$empty = FALSE;
+			$empty = false;
 			$refer = array_unique($refer);
 			sort($refer, SORT_STRING);
 
@@ -73,4 +73,3 @@ function plugin_yetlist_action()
 
 	return $retval;
 }
-?>

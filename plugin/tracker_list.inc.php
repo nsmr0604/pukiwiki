@@ -11,4 +11,3 @@ function plugin_tracker_list_init()
 	if (function_exists('plugin_tracker_init'))
 		plugin_tracker_init();
 }
-?>

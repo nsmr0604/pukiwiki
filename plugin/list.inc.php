@@ -17,7 +17,7 @@ function plugin_list_action()
 }
 
 // Get a list
-function plugin_list_getlist($withfilename = FALSE)
+function plugin_list_getlist($withfilename = false)
 {
 	global $non_list, $whatsnew;
 
@@ -28,4 +28,3 @@ function plugin_list_getlist($withfilename = FALSE)
 
 	return page_list($pages, 'read', $withfilename);
 }
-?>

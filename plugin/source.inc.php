@@ -22,4 +22,3 @@ function plugin_source_action()
 		'body' => '<pre id="source">' .
 		htmlsc(join('', get_source($page))) . '</pre>');
 }
-?>

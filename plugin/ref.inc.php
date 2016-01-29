@@ -22,13 +22,13 @@ if (! defined('FILE_ICON'))
 define('PLUGIN_REF_DEFAULT_ALIGN', 'left'); // 'left', 'center', 'right'
 
 // Text wrapping
-define('PLUGIN_REF_WRAP_TABLE', FALSE); // TRUE, FALSE
+define('PLUGIN_REF_WRAP_TABLE', false); // TRUE, FALSE
 
 // URL指定時に画像サイズを取得するか
-define('PLUGIN_REF_URL_GET_IMAGE_SIZE', FALSE); // FALSE, TRUE
+define('PLUGIN_REF_URL_GET_IMAGE_SIZE', false); // FALSE, TRUE
 
 // UPLOAD_DIR のデータ(画像ファイルのみ)に直接アクセスさせる
-define('PLUGIN_REF_DIRECT_ACCESS', FALSE); // FALSE or TRUE
+define('PLUGIN_REF_DIRECT_ACCESS', false); // FALSE or TRUE
 // - これは従来のインラインイメージ処理を互換のために残すもので
 //   あり、高速化のためのオプションではありません
 // - UPLOAD_DIR をWebサーバー上に露出させており、かつ直接アクセス
@@ -112,22 +112,22 @@ function plugin_ref_body($args)
 
 	// 戻り値
 	$params = array(
-		'left'   => FALSE, // 左寄せ
-		'center' => FALSE, // 中央寄せ
-		'right'  => FALSE, // 右寄せ
-		'wrap'   => FALSE, // TABLEで囲む
-		'nowrap' => FALSE, // TABLEで囲まない
-		'around' => FALSE, // 回り込み
-		'noicon' => FALSE, // アイコンを表示しない
-		'nolink' => FALSE, // 元ファイルへのリンクを張らない
-		'noimg'  => FALSE, // 画像を展開しない
-		'zoom'   => FALSE, // 縦横比を保持する
-		'_size'  => FALSE, // サイズ指定あり
+		'left'   => false, // 左寄せ
+		'center' => false, // 中央寄せ
+		'right'  => false, // 右寄せ
+		'wrap'   => false, // TABLEで囲む
+		'nowrap' => false, // TABLEで囲まない
+		'around' => false, // 回り込み
+		'noicon' => false, // アイコンを表示しない
+		'nolink' => false, // 元ファイルへのリンクを張らない
+		'noimg'  => false, // 画像を展開しない
+		'zoom'   => false, // 縦横比を保持する
+		'_size'  => false, // サイズ指定あり
 		'_w'     => 0,       // 幅
 		'_h'     => 0,       // 高さ
 		'_%'     => 0,     // 拡大率
 		'_args'  => array(),
-		'_done'  => FALSE,
+		'_done'  => false,
 		'_error' => ''
 	);
 
@@ -164,7 +164,7 @@ function plugin_ref_body($args)
 			$is_file = is_file($file);
 
 		// 第二引数以降が存在し、それはrefのオプション名称などと一致しない
-		} else if (isset($args[0]) && $args[0] != '' && ! isset($params[$args[0]])) {
+		} elseif (isset($args[0]) && $args[0] != '' && ! isset($params[$args[0]])) {
 			$e_name = encode($name);
 
 			// Try the second argument, as a page-name or a path-name
@@ -179,7 +179,7 @@ function plugin_ref_body($args)
 				// Believe the second argument (compat)
 				array_shift($args);
 				$page = $_arg;
-				$is_file = TRUE;
+				$is_file = true;
 			} else {
 				// Try default page, with default params
 				$is_file_default = is_file(UPLOAD_DIR . encode($page) . '_' . $e_name);
@@ -293,11 +293,11 @@ function plugin_ref_body($args)
 		$_title = array();
 		foreach ($params['_args'] as $arg) {
 			if (preg_match('/^([0-9]+)x([0-9]+)$/', $arg, $matches)) {
-				$params['_size'] = TRUE;
+				$params['_size'] = true;
 				$params['_w'] = $matches[1];
 				$params['_h'] = $matches[2];
 
-			} else if (preg_match('/^([0-9.]+)%$/', $arg, $matches) && $matches[1] > 0) {
+			} elseif (preg_match('/^([0-9.]+)%$/', $arg, $matches) && $matches[1] > 0) {
 				$params['_%'] = $matches[1];
 
 			} else {
@@ -318,7 +318,7 @@ function plugin_ref_body($args)
 			if ($width == 0 && $height == 0) {
 				$width  = $params['_w'];
 				$height = $params['_h'];
-			} else if ($params['zoom']) {
+			} elseif ($params['zoom']) {
 				$_w = $params['_w'] ? $width  / $params['_w'] : 0;
 				$_h = $params['_h'] ? $height / $params['_h'] : 0;
 				$zoom = max($_w, $_h);
@@ -363,18 +363,18 @@ function plugin_ref_body($args)
 function ref_check_arg($val, & $params)
 {
 	if ($val == '') {
-		$params['_done'] = TRUE;
+		$params['_done'] = true;
 		return;
 	}
 
 	if (! $params['_done']) {
 		foreach (array_keys($params) as $key) {
 			if (strpos($key, strtolower($val)) === 0) {
-				$params[$key] = TRUE;
+				$params[$key] = true;
 				return;
 			}
 		}
-		$params['_done'] = TRUE;
+		$params['_done'] = true;
 	}
 
 	$params['_args'][] = $val;
@@ -398,7 +398,7 @@ function plugin_ref_action()
 		return array('msg'=>'Attach file not found', 'body'=>$usage);
 
 	$got = @getimagesize($ref);
-	if (! isset($got[2])) $got[2] = FALSE;
+	if (! isset($got[2])) $got[2] = false;
 	switch ($got[2]) {
 	case 1: $type = 'image/gif' ; break;
 	case 2: $type = 'image/jpeg'; break;
@@ -431,4 +431,3 @@ function plugin_ref_action()
 	@readfile($ref);
 	exit;
 }
-?>

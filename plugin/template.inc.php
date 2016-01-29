@@ -15,7 +15,7 @@ function plugin_template_action()
 
 	if (PKWK_READONLY) die_message('PKWK_READONLY prohibits editing');
 	if (! isset($vars['refer']) || ! is_page($vars['refer']))
-		return FALSE;
+		return false;
 
 	$lines = get_source($vars['refer']);
 
@@ -57,7 +57,7 @@ function plugin_template_action()
 	if ($is_page) {
 		$msg = $_err_template_already;
 		$tag = '<input type="checkbox" name="force" value="1" />'.$_msg_template_force;
-	} else if ($page != '' && ! $is_pagename) {
+	} elseif ($page != '' && ! $is_pagename) {
 		$msg = str_replace('$1', $_page, $_err_template_invalid);
 	}
 
@@ -82,4 +82,3 @@ EOD;
 
 	return $retvar;
 }
-?>

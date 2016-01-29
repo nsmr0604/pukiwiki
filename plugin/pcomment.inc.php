@@ -68,11 +68,11 @@ function plugin_pcomment_convert()
 	global $_pcmt_messages;
 
 	$params = array(
-		'noname'=>FALSE,
-		'nodate'=>FALSE,
-		'below' =>FALSE,
-		'above' =>FALSE,
-		'reply' =>FALSE,
+		'noname'=>false,
+		'nodate'=>false,
+		'below' =>false,
+		'above' =>false,
+		'reply' =>false,
 		'_args' =>array()
 	);
 
@@ -177,12 +177,12 @@ function plugin_pcomment_insert()
 		return array(
 			'msg' =>'Invalid page name',
 			'body'=>'Cannot add comment' ,
-			'collided'=>TRUE
+			'collided'=>true
 		);
 
 	check_editable($page, true, true);
 
-	$ret = array('msg' => $_title_updated, 'collided' => FALSE);
+	$ret = array('msg' => $_title_updated, 'collided' => false);
 
 	$msg = str_replace('$msg', rtrim($vars['msg']), PLUGIN_PCOMMENT_FORMAT_MSG);
 	$name = (! isset($vars['name']) || $vars['name'] == '') ? $_no_name : $vars['name'];
@@ -225,14 +225,14 @@ function plugin_pcomment_insert()
 
 		// Find the comment to reply
 		$level   = 1;
-		$b_reply = FALSE;
+		$b_reply = false;
 		if ($reply_hash != '') {
 			while ($end_position < $count) {
 				$matches = array();
 				if (preg_match('/^(\-{1,2})(?!\-)(.*)$/', $postdata[$end_position++], $matches)
 					&& md5($matches[2]) == $reply_hash)
 				{
-					$b_reply = TRUE;
+					$b_reply = true;
 					$level   = strlen($matches[1]) + 1;
 
 					while ($end_position < $count) {
@@ -245,7 +245,7 @@ function plugin_pcomment_insert()
 			}
 		}
 
-		if ($b_reply == FALSE)
+		if ($b_reply == false)
 			$end_position = ($dir == '0') ? $start_position : $count;
 
 		// Insert new comment
@@ -304,7 +304,7 @@ function plugin_pcomment_check_arg($val, & $params)
 		$l_val = strtolower($val);
 		foreach (array_keys($params) as $key) {
 			if (strpos($key, $l_val) === 0) {
-				$params[$key] = TRUE;
+				$params[$key] = true;
 				return;
 			}
 		}
@@ -368,4 +368,3 @@ function plugin_pcomment_get_comments($page, $count, $dir, $reply)
 
 	return array($comments, $digest);
 }
-?>

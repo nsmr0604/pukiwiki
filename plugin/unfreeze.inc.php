@@ -7,7 +7,7 @@
 // Unfreeze(Unlock) plugin
 
 // Show edit form when unfreezed
-define('PLUGIN_UNFREEZE_EDIT', TRUE);
+define('PLUGIN_UNFREEZE_EDIT', true);
 
 function plugin_unfreeze_action()
 {
@@ -19,7 +19,7 @@ function plugin_unfreeze_action()
 	if (! $function_freeze || ! is_page($page))
 		return array('msg' => '', 'body' => '');
 
-	$pass = isset($vars['pass']) ? $vars['pass'] : NULL;
+	$pass = isset($vars['pass']) ? $vars['pass'] : null;
 	$msg = $body = '';
 	if (! is_freeze($page)) {
 		// Unfreezed already
@@ -27,15 +27,15 @@ function plugin_unfreeze_action()
 		$body = str_replace('$1', htmlsc(strip_bracket($page)),
 			$_title_isunfreezed);
 
-	} else if ($pass !== NULL && pkwk_login($pass)) {
+	} elseif ($pass !== null && pkwk_login($pass)) {
 		// Unfreeze
 		$postdata = get_source($page);
 		array_shift($postdata);
 		$postdata = join('', $postdata);
-		file_write(DATA_DIR, $page, $postdata, TRUE);
+		file_write(DATA_DIR, $page, $postdata, true);
 
 		// Update 
-		is_freeze($page, TRUE);
+		is_freeze($page, true);
 		if (PLUGIN_UNFREEZE_EDIT) {
 			$vars['cmd'] = 'read'; // To show 'Freeze' link
 			$msg  = & $_title_unfreezed;
@@ -50,7 +50,7 @@ function plugin_unfreeze_action()
 		// Show unfreeze form
 		$msg    = & $_title_unfreeze;
 		$s_page = htmlsc($page);
-		$body   = ($pass === NULL) ? '' : "<p><strong>$_msg_invalidpass</strong></p>\n";
+		$body   = ($pass === null) ? '' : "<p><strong>$_msg_invalidpass</strong></p>\n";
 		$body  .= <<<EOD
 <p>$_msg_unfreezing</p>
 <form action="$script" method="post">
@@ -66,4 +66,3 @@ EOD;
 
 	return array('msg'=>$msg, 'body'=>$body);
 }
-?>

@@ -39,7 +39,7 @@ function plugin_related_action()
 		'Return to ' . $s_word .'</a><br />'. "\n";
 
 	if (empty($data)) {
-		$retval .= '<ul><li>No related pages found.</li></ul>' . "\n";	
+		$retval .= '<ul><li>No related pages found.</li></ul>' . "\n";
 	} else {
 		// Show count($data)?
 		ksort($data);
@@ -55,4 +55,3 @@ function plugin_related_action()
 	}
 	return array('msg'=>$msg, 'body'=>$retval);
 }
-?>

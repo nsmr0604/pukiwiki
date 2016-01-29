@@ -83,7 +83,7 @@ function plugin_memo_convert()
 
 	if (PKWK_READONLY) {
 		$_script = '';
-		$_submit = '';	
+		$_submit = '';
 	} else {
 		$_script = & $script;
 		$_submit = '<input type="submit" name="memo"    value="' . $_btn_memo_update . '" />';
@@ -108,4 +108,3 @@ EOD;
 
 	return $string;
 }
-?>

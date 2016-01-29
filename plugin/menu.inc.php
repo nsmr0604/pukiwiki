@@ -6,7 +6,7 @@
 //
 
 // サブメニューを使用する
-define('MENU_ENABLE_SUBMENU', FALSE);
+define('MENU_ENABLE_SUBMENU', false);
 
 // サブメニューの名称
 define('MENU_SUBMENUBAR', 'MenuBar');
@@ -14,13 +14,13 @@ define('MENU_SUBMENUBAR', 'MenuBar');
 function plugin_menu_convert()
 {
 	global $vars, $menubar;
-	static $menu = NULL;
+	static $menu = null;
 
 	$num = func_num_args();
 	if ($num > 0) {
 		// Try to change default 'MenuBar' page name (only)
 		if ($num > 1)       return '#menu(): Zero or One argument needed';
-		if ($menu !== NULL) return '#menu(): Already set: ' . htmlsc($menu);
+		if ($menu !== null) return '#menu(): Already set: ' . htmlsc($menu);
 		$args = func_get_args();
 		if (! is_page($args[0])) {
 			return '#menu(): No such page: ' . htmlsc($args[0]);
@@ -31,7 +31,7 @@ function plugin_menu_convert()
 
 	} else {
 		// Output menubar page data
-		$page = ($menu === NULL) ? $menubar : $menu;
+		$page = ($menu === null) ? $menubar : $menu;
 
 		if (MENU_ENABLE_SUBMENU) {
 			$path = explode('/', strip_bracket($vars['page']));
@@ -47,14 +47,13 @@ function plugin_menu_convert()
 
 		if (! is_page($page)) {
 			return '';
-		} else if ($vars['page'] == $page) {
+		} elseif ($vars['page'] == $page) {
 			return '<!-- #menu(): You already view ' . htmlsc($page) . ' -->';
 		} else {
 			// Cut fixed anchors
 			$menutext = preg_replace('/^(\*{1,3}.*)\[#[A-Za-z][\w-]+\](.*)$/m', '$1$2', get_source($page));
 
-			return preg_replace('/<ul[^>]*>/', '<ul>', convert_html($menutext));  
+			return preg_replace('/<ul[^>]*>/', '<ul>', convert_html($menutext));
 		}
 	}
 }
-?>

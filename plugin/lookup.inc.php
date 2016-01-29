@@ -48,11 +48,11 @@ function plugin_lookup_action()
 
 	$page  = isset($post['page'])  ? $post['page']  : '';
 	$inter = isset($post['inter']) ? $post['inter'] : '';
-	if ($page == '') return FALSE; // Do nothing
+	if ($page == '') return false; // Do nothing
 	if ($inter == '') return array('msg'=>'Invalid access', 'body'=>'');
 
 	$url = get_interwiki_url($inter, $page);
-	if ($url === FALSE) {
+	if ($url === false) {
 		$msg = sprintf('InterWikiName "%s" not found', $inter);
 		$msg = htmlsc($msg);
 		return array('msg'=>'Not found', 'body'=>$msg);
@@ -62,4 +62,3 @@ function plugin_lookup_action()
 	header('Location: ' . $url); // Publish as GET method
 	exit;
 }
-?>

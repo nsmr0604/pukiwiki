@@ -11,7 +11,7 @@
 define('PLUGIN_BACK_ALLOW_PAGELINK', PKWK_SAFE_MODE); // FALSE(Compat), TRUE
 
 // Allow JavaScript (Compat)
-define('PLUGIN_BACK_ALLOW_JAVASCRIPT', TRUE); // TRUE(Compat), FALSE, PKWK_ALLOW_JAVASCRIPT
+define('PLUGIN_BACK_ALLOW_JAVASCRIPT', true); // TRUE(Compat), FALSE, PKWK_ALLOW_JAVASCRIPT
 
 // ----
 define('PLUGIN_BACK_USAGE', '#back([text],[center|left|right][,0(no hr)[,Page-or-URI-to-back]])');
@@ -37,7 +37,7 @@ function plugin_back_convert()
 
 	$hr = (trim($hr) != '0') ? '<hr class="full_hr" />' . "\n" : '';
 
-	$link = TRUE;
+	$link = true;
 	$href = trim($href);
 	if ($href != '') {
 		if (PLUGIN_BACK_ALLOW_PAGELINK) {
@@ -70,4 +70,3 @@ function plugin_back_convert()
 			'">?</a></span> ]</div>' . "\n";
 	}
 }
-?>

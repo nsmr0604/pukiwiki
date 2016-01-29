@@ -21,11 +21,11 @@ function plugin_calendar_convert()
 		} else {
 			$page     = $args[0];
 		}
-	} else if (func_num_args() == 2) {
+	} elseif (func_num_args() == 2) {
 		if (is_numeric($args[0]) && strlen($args[0]) == 6) {
 			$date_str = $args[0];
 			$page     = $args[1];
-		} else if (is_numeric($args[1]) && strlen($args[1]) == 6) {
+		} elseif (is_numeric($args[1]) && strlen($args[1]) == 6) {
 			$date_str = $args[1];
 			$page     = $args[0];
 		}
@@ -33,8 +33,8 @@ function plugin_calendar_convert()
 
 	if ($page == '') {
 		$page = $vars['page'];
-	} else if (! is_pagename($page)) {
-		return FALSE;
+	} elseif (! is_pagename($page)) {
+		return false;
 	}
 	$pre    = $page;
 	$prefix = $page . '/';
@@ -118,11 +118,11 @@ EOD;
 			//  Today
 			$ret .= '    <td class="style_td_today"><span class="small">' .
 				$link . '</span></td>' . "\n";
-		} else if ($wday == 0) {
+		} elseif ($wday == 0) {
 			//  Sunday
 			$ret .= '    <td class="style_td_sun"><span class="small">' .
 				$link . '</span></td>' . "\n";
-		} else if ($wday == 6) {
+		} elseif ($wday == 6) {
 			//  Saturday
 			$ret .= '    <td class="style_td_sat"><span class="small">' .
 				$link . '</span></td>' . "\n";
@@ -149,4 +149,3 @@ EOD;
 
 	return $ret;
 }
-?>

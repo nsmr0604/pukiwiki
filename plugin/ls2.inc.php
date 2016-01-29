@@ -31,7 +31,7 @@ define('PLUGIN_LS2_ANCHOR_PREFIX', '#content_1_');
 define('PLUGIN_LS2_ANCHOR_ORIGIN', 0);
 
 // 見出しレベルを調整する(デフォルト値)
-define('PLUGIN_LS2_LIST_COMPACT', FALSE);
+define('PLUGIN_LS2_LIST_COMPACT', false);
 
 function plugin_ls2_action()
 {
@@ -54,13 +54,13 @@ function plugin_ls2_convert()
 	global $script, $vars, $_ls2_msg_title;
 
 	$params = array(
-		'link'    => FALSE,
-		'title'   => FALSE,
-		'include' => FALSE,
-		'reverse' => FALSE,
+		'link'    => false,
+		'title'   => false,
+		'include' => false,
+		'reverse' => false,
 		'compact' => PLUGIN_LS2_LIST_COMPACT,
 		'_args'   => array(),
-		'_done'   => FALSE
+		'_done'   => false
 	);
 
 	$args = array();
@@ -117,7 +117,7 @@ function plugin_ls2_show_lists($prefix, & $params)
 	}
 }
 
-function plugin_ls2_get_headings($page, & $params, $level, $include = FALSE)
+function plugin_ls2_get_headings($page, & $params, $level, $include = false)
 {
 	global $script;
 	static $_ls2_anchor = 0;
@@ -128,7 +128,7 @@ function plugin_ls2_get_headings($page, & $params, $level, $include = FALSE)
 
 	$r_page = rawurlencode($page);
 	$s_page = htmlsc($page);
-	$title  = $s_page . ' ' . get_pg_passage($page, FALSE);
+	$title  = $s_page . ' ' . get_pg_passage($page, false);
 	$href   = $script . '?cmd=read&amp;page=' . $r_page;
 
 	plugin_ls2_list_push($params, $level);
@@ -155,11 +155,11 @@ function plugin_ls2_get_headings($page, & $params, $level, $include = FALSE)
 			plugin_ls2_list_push($params, $level + strlen($level));
 			array_push($params['result'],
 				'<li><a href="' . $href . $id . '">' . $line . '</a>');
-		} else if ($params['include'] &&
+		} elseif ($params['include'] &&
 			preg_match('/^#include\((.+)\)/', $line, $matches) &&
 			is_page($matches[1]))
 		{
-			plugin_ls2_get_headings($matches[1], $params, $level + 1, TRUE);
+			plugin_ls2_get_headings($matches[1], $params, $level + 1, true);
 		}
 	}
 }
@@ -171,7 +171,7 @@ function plugin_ls2_list_push(& $params, $level)
 
 	$result = & $params['result'];
 	$saved  = & $params['saved'];
-	$cont   = TRUE;
+	$cont   = true;
 	$open   = '<ul%s>';
 	$close  = '</li></ul>';
 
@@ -184,7 +184,7 @@ function plugin_ls2_list_push(& $params, $level)
 	while (count($saved) < ($level - 1)) array_unshift($saved, '');
 
 	if (count($saved) < $level) {
-		$cont = FALSE;
+		$cont = false;
 		array_unshift($saved, $close);
 
 		$left = ($level == $margin) ? $_ul_left_margin : 0;
@@ -205,7 +205,7 @@ function plugin_ls2_list_push(& $params, $level)
 function plugin_ls2_check_arg($value, & $params)
 {
 	if ($value == '') {
-		$params['_done'] = TRUE;
+		$params['_done'] = true;
 		return;
 	}
 
@@ -213,13 +213,12 @@ function plugin_ls2_check_arg($value, & $params)
 		foreach (array_keys($params) as $param) {
 			if (strtolower($value)  == $param &&
 			    preg_match('/^[a-z]/', $param)) {
-				$params[$param] = TRUE;
+				$params[$param] = true;
 				return;
 			}
 		}
-		$params['_done'] = TRUE;
+		$params['_done'] = true;
 	}
 
 	$params['_args'][] = htmlsc($value); // Link title
 }
-?>

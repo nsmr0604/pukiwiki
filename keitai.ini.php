@@ -383,5 +383,3 @@ switch ($ua_name) {
 }
 
 unset($matches, $ua_name, $ua_vers, $ua_agent, $special_rules);
-
-?>

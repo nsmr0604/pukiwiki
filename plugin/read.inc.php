@@ -16,10 +16,10 @@ function plugin_read_action()
 		header_lastmod($page);
 		return array('msg'=>'', 'body'=>'');
 
-	} else if (! PKWK_SAFE_MODE && is_interwiki($page)) {
+	} elseif (! PKWK_SAFE_MODE && is_interwiki($page)) {
 		return do_plugin_action('interwiki'); // InterWikiNameを処理
 
-	} else if (is_pagename($page)) {
+	} elseif (is_pagename($page)) {
 		$vars['cmd'] = 'edit';
 		return do_plugin_action('edit'); // 存在しないので、編集フォームを表示
 
@@ -32,4 +32,3 @@ function plugin_read_action()
 		);
 	}
 }
-?>

@@ -8,4 +8,3 @@ function plugin_clear_convert()
 {
 	return '<div class="clear"></div>';
 }
-?>

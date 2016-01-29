@@ -178,5 +178,3 @@ $facemark_rules = array(
 	'&amp;(phoneto);'=>'[phoneto]',
 	'&amp;(faxto);'	=> '[faxto]',
 );
-
-?>

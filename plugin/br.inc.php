@@ -24,4 +24,3 @@ function plugin_br_inline()
 {
 	return PLUGIN_BR_TAG;
 }
-?>

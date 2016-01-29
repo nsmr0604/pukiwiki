@@ -19,7 +19,7 @@ function plugin_freeze_action()
 	if (! $function_freeze || ! is_page($page))
 		return array('msg' => '', 'body' => '');
 
-	$pass = isset($vars['pass']) ? $vars['pass'] : NULL;
+	$pass = isset($vars['pass']) ? $vars['pass'] : null;
 	$msg = $body = '';
 	if (is_freeze($page)) {
 		// Freezed already
@@ -27,14 +27,14 @@ function plugin_freeze_action()
 		$body = str_replace('$1', htmlsc(strip_bracket($page)),
 			$_title_isfreezed);
 
-	} else if ($pass !== NULL && pkwk_login($pass)) {
+	} elseif ($pass !== null && pkwk_login($pass)) {
 		// Freeze
 		$postdata = get_source($page);
 		array_unshift($postdata, "#freeze\n");
-		file_write(DATA_DIR, $page, join('', $postdata), TRUE);
+		file_write(DATA_DIR, $page, join('', $postdata), true);
 
 		// Update
-		is_freeze($page, TRUE);
+		is_freeze($page, true);
 		$vars['cmd'] = 'read';
 		$msg  = & $_title_freezed;
 		$body = '';
@@ -43,7 +43,7 @@ function plugin_freeze_action()
 		// Show a freeze form
 		$msg    = & $_title_freeze;
 		$s_page = htmlsc($page);
-		$body   = ($pass === NULL) ? '' : "<p><strong>$_msg_invalidpass</strong></p>\n";
+		$body   = ($pass === null) ? '' : "<p><strong>$_msg_invalidpass</strong></p>\n";
 		$body  .= <<<EOD
 <p>$_msg_freezing</p>
 <form action="$script" method="post">
@@ -59,4 +59,3 @@ EOD;
 
 	return array('msg'=>$msg, 'body'=>$body);
 }
-?>

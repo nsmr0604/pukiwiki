@@ -77,15 +77,15 @@ function plugin_calendar_viewer_convert()
 		// 指定年月の一覧表示
 		$page_YM     = $func_args[1];
 		$limit_page  = 31;
-	} else if (preg_match('/this/si', $func_args[1])) {
+	} elseif (preg_match('/this/si', $func_args[1])) {
 		// 今月の一覧表示
 		$page_YM     = get_date('Y' . $date_sep . 'm');
 		$limit_page  = 31;
-	} else if (preg_match('/^[0-9]+$/', $func_args[1])) {
+	} elseif (preg_match('/^[0-9]+$/', $func_args[1])) {
 		// n日分表示
 		$limit_pitch = $func_args[1];
 		$limit_page  = $func_args[1];
-	} else if (preg_match('/(-?[0-9]+)\*([0-9]+)/', $func_args[1], $matches)) {
+	} elseif (preg_match('/(-?[0-9]+)\*([0-9]+)/', $func_args[1], $matches)) {
 		// 先頭より数えて x ページ目から、y件づつ表示
 		$limit_base  = $matches[1];
 		$limit_pitch = $matches[2];
@@ -106,7 +106,7 @@ function plugin_calendar_viewer_convert()
 		$s_page = htmlsc($pagename);
 		return "#calendar_viewer(): You already view: $s_page<br />";
 	} else {
-		$viewed[$pagename] = TRUE; // Valid
+		$viewed[$pagename] = true; // Valid
 	}
 
 	// 一覧表示するページ名とファイル名のパターン　ファイル名には年月を含む
@@ -138,7 +138,7 @@ function plugin_calendar_viewer_convert()
 			// Verify the $page_date pattern (Default: yyyy-mm-dd).
 			// Past-mode hates the future, and
 			// Future-mode hates the past.
-			if ((plugin_calendar_viewer_isValidDate($page_date, $date_sep) == FALSE) || 
+			if ((plugin_calendar_viewer_isValidDate($page_date, $date_sep) == false) ||
 				($page_date > $_date && ($mode == 'past')) ||
 				($page_date < $_date && ($mode == 'future')))
 					continue;
@@ -167,7 +167,7 @@ function plugin_calendar_viewer_convert()
 		$get['page'] = $post['page'] = $vars['page'] = $page;
 
 		// 現状で閲覧許可がある場合だけ表示する
-		if (check_readable($page, FALSE, FALSE)) {
+		if (check_readable($page, false, false)) {
 			$body = convert_html(get_source($page));
 		} else {
 			$body = str_replace('$1', $page, $_msg_calendar_viewer_restrict);
@@ -175,7 +175,7 @@ function plugin_calendar_viewer_convert()
 
 		$r_page = rawurlencode($page);
 
-		if (PLUGIN_CALENDAR_VIEWER_DATE_FORMAT !== FALSE) {
+		if (PLUGIN_CALENDAR_VIEWER_DATE_FORMAT !== false) {
 			$time = strtotime(basename($page)); // $date_sep must be assumed '-' or ''!
 			if ($time == -1) {
 				$s_page = htmlsc($page); // Failed. Why?
@@ -324,10 +324,9 @@ function plugin_calendar_viewer_isValidDate($aStr, $aSepList = '-/ .')
 	if ($aSepList == '') {
 		// yyymmddとしてチェック（手抜き(^^;）
 		return checkdate(substr($aStr, 4, 2), substr($aStr, 6, 2), substr($aStr, 0, 4));
-	} else if (ereg("^([0-9]{2,4})[$aSepList]([0-9]{1,2})[$aSepList]([0-9]{1,2})$", $aStr, $matches) ) {
+	} elseif (ereg("^([0-9]{2,4})[$aSepList]([0-9]{1,2})[$aSepList]([0-9]{1,2})$", $aStr, $matches)) {
 		return checkdate($matches[2], $matches[3], $matches[1]);
 	} else {
-		return FALSE;
+		return false;
 	}
 }
-?>

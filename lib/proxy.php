@@ -27,7 +27,7 @@ function http_request($url, $method = 'GET', $headers = '', $post = array(),
 	$rc  = array();
 	$arr = parse_url($url);
 
-	$via_proxy = $use_proxy ? ! in_the_net($no_proxy, $arr['host']) : FALSE;
+	$via_proxy = $use_proxy ? ! in_the_net($no_proxy, $arr['host']) : false;
 
 	// query
 	$arr['query'] = isset($arr['query']) ? '?' . $arr['query'] : '';
@@ -82,7 +82,7 @@ function http_request($url, $method = 'GET', $headers = '', $post = array(),
 		$via_proxy ? $proxy_host : $arr['host'],
 		$via_proxy ? $proxy_port : $arr['port'],
 		$errno, $errstr, 30);
-	if ($fp === FALSE) {
+	if ($fp === false) {
 		return array(
 			'query'  => $query, // Query string
 			'rc'     => $errno, // Error number
@@ -131,7 +131,7 @@ define('PKWK_CIDR_NETWORK_REGEX', '/^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?:\/([
 // Check if the $host is in the specified network(s)
 function in_the_net($networks = array(), $host = '')
 {
-	if (empty($networks) || $host == '') return FALSE;
+	if (empty($networks) || $host == '') return false;
 	if (! is_array($networks)) $networks = array($networks);
 
 	$matches = array();
@@ -154,15 +154,14 @@ function in_the_net($networks = array(), $host = '')
 				pow(2, 32) - pow(2, 32 - $mask) : // '8' means '8-bit mask'
 				ip2long($mask);                   // '255.0.0.0' (the same)
 
-			if (($l_ip & $mask) == $l_net) return TRUE;
+			if (($l_ip & $mask) == $l_net) return true;
 		} else {
 			// $host seems not IPv4 address. May be a DNS name like 'foobar.example.com'?
 			foreach ($networks as $network)
 				if (preg_match('/\.?\b' . preg_quote($network, '/') . '$/', $host))
-					return TRUE;
+					return true;
 		}
 	}
 
-	return FALSE; // Not found
+	return false; // Not found
 }
-?>

@@ -20,7 +20,7 @@ function plugin_img_convert()
 	$arg = isset($args[1]) ? strtoupper($args[1]) : '';
 	if ($arg == '' || $arg == 'L' || $arg == 'LEFT') {
 		$align = 'left';
-	} else if ($arg == 'R' || $arg == 'RIGHT') {
+	} elseif ($arg == 'R' || $arg == 'RIGHT') {
 		$align = 'right';
 	} else {
 		// Stop word-wrapping only (Ugly but compatible)
@@ -41,4 +41,3 @@ function plugin_img_convert()
 </div>$clear
 EOD;
 }
-?>

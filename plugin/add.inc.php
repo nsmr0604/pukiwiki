@@ -14,7 +14,7 @@ function plugin_add_action()
 	$page = isset($vars['page']) ? $vars['page'] : '';
 	check_editable($page);
 
-	$get['add'] = $post['add'] = $vars['add'] = TRUE;
+	$get['add'] = $post['add'] = $vars['add'] = true;
 	return array(
 		'msg'  => $_title_add,
 		'body' =>
@@ -24,4 +24,3 @@ function plugin_add_action()
 			edit_form($page, '')
 		);
 }
-?>

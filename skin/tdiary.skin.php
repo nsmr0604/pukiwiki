@@ -24,7 +24,7 @@ if (! defined('TDIARY_THEME'))
 //   0    = Show topicpath
 //   1    = Show reload URL
 if (! defined('TDIARY_CALENDAR_DESIGN'))
-	define('TDIARY_CALENDAR_DESIGN', NULL); // NULL, 0, 1
+	define('TDIARY_CALENDAR_DESIGN', null); // NULL, 0, 1
 
 // Show / Hide navigation bar UI at your choice
 // NOTE: This is not stop their functionalities!
@@ -77,7 +77,7 @@ case 'christmas':
 }
 
 // Adjust reverse-link default design manually
-$disable_backlink = FALSE;
+$disable_backlink = false;
 switch(TDIARY_THEME){
 case 'hatena':		/* FALLTHROUGH */
 case 'hatena-black':
@@ -93,7 +93,7 @@ case 'hatena_cinnamon':
 case 'hatena_japanese':
 case 'hatena_leaf':
 case 'hatena_water':
-	$disable_backlink = TRUE; // or very viewable title color
+	$disable_backlink = true; // or very viewable title color
 	break;
 }
 
@@ -528,7 +528,7 @@ if (defined('TDIARY_SIDEBAR_POSITION')) {
 }
 // Check menu (sidebar) is ready and $menubar is there
 if ($sidebar == 'none') {
-	$menu = FALSE;
+	$menu = false;
 } else {
 	$menu = (arg_check('read') && is_page($GLOBALS['menubar']) &&
 		exist_plugin_convert('menu'));
@@ -607,18 +607,18 @@ if (isset($pkwk_dtd)) {
 <?php if (PKWK_SKIN_SHOW_NAVBAR) { ?>
 <div class="adminmenu"><div id="navigator">
 <?php
-function _navigator($key, $value = '', $javascript = ''){
+function _navigator($key, $value = '', $javascript = '') {
 	$lang = $GLOBALS['_LANG']['skin'];
 	$link = $GLOBALS['_LINK'];
-	if (! isset($lang[$key])) { echo 'LANG NOT FOUND'; return FALSE; }
-	if (! isset($link[$key])) { echo 'LINK NOT FOUND'; return FALSE; }
+	if (! isset($lang[$key])) { echo 'LANG NOT FOUND'; return false; }
+	if (! isset($link[$key])) { echo 'LINK NOT FOUND'; return false; }
 	if (! PKWK_ALLOW_JAVASCRIPT) $javascript = '';
 
 	echo '<span class="adminmenu"><a href="' . $link[$key] . '" ' . $javascript . '>' .
 		(($value === '') ? $lang[$key] : $value) .
 		'</a></span>';
 
-	return TRUE;
+	return true;
 }
 ?>
  <?php _navigator('top') ?> &nbsp;
@@ -667,7 +667,7 @@ function _navigator($key, $value = '', $javascript = ''){
 <h1><?php echo $page_title ?></h1>
 
 <div class="calendar">
-<?php if ($is_page && TDIARY_CALENDAR_DESIGN !== NULL) { ?>
+<?php if ($is_page && TDIARY_CALENDAR_DESIGN !== null) { ?>
 	<?php if(TDIARY_CALENDAR_DESIGN) { ?>
 		<a href="<?php echo $link['reload'] ?>"><span class="small"><?php echo $link['reload'] ?></span></a>
 	<?php } else { ?>
@@ -858,19 +858,19 @@ $_IMAGE['skin']['rss10']    = & $_IMAGE['skin']['rss'];
 $_IMAGE['skin']['rss20']    = 'rss20.png';
 $_IMAGE['skin']['rdf']      = 'rdf.png';
 
-function _toolbar($key, $x = 20, $y = 20){
+function _toolbar($key, $x = 20, $y = 20) {
 	$lang  = & $GLOBALS['_LANG']['skin'];
 	$link  = & $GLOBALS['_LINK'];
 	$image = & $GLOBALS['_IMAGE']['skin'];
-	if (! isset($lang[$key]) ) { echo 'LANG NOT FOUND';  return FALSE; }
-	if (! isset($link[$key]) ) { echo 'LINK NOT FOUND';  return FALSE; }
-	if (! isset($image[$key])) { echo 'IMAGE NOT FOUND'; return FALSE; }
+	if (! isset($lang[$key])) { echo 'LANG NOT FOUND';  return false; }
+	if (! isset($link[$key])) { echo 'LINK NOT FOUND';  return false; }
+	if (! isset($image[$key])) { echo 'IMAGE NOT FOUND'; return false; }
 
 	echo '<a href="' . $link[$key] . '">' .
 		'<img src="' . IMAGE_DIR . $image[$key] . '" width="' . $x . '" height="' . $y . '" ' .
 			'alt="' . $lang[$key] . '" title="' . $lang[$key] . '" />' .
 		'</a>';
-	return TRUE;
+	return true;
 }
 ?>
  <?php _toolbar('top') ?>

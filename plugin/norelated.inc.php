@@ -11,4 +11,3 @@ function plugin_norelated_convert()
 	$related_link = 0;
 	return '';
 }
-?>

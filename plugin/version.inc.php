@@ -17,4 +17,3 @@ function plugin_version_inline()
 
 	return S_VERSION;
 }
-?>

@@ -66,7 +66,7 @@ if ($die) die_message(nl2br("\n\n" . $die));
 //   'UTF-8', 'iso-8859-1', 'EUC-JP' or ...
 
 switch (LANG){
-case 'en': define('MB_LANGUAGE', 'English' ); break;
+case 'en': define('MB_LANGUAGE', 'English'); break;
 case 'ja': define('MB_LANGUAGE', 'Japanese'); break;
 //UTF-8:case 'ko': define('MB_LANGUAGE', 'Korean'  ); break;
 //UTF-8:	// See BugTrack2/13 for all hack about Korean support,
@@ -233,7 +233,7 @@ if (isset($_POST['encode_hint']) && $_POST['encode_hint'] != '') {
 	$encode = mb_detect_encoding($_POST['encode_hint']);
 	mb_convert_variables(SOURCE_ENCODING, $encode, $_POST);
 
-} else if (isset($_POST['charset']) && $_POST['charset'] != '') {
+} elseif (isset($_POST['charset']) && $_POST['charset'] != '') {
 	// TrackBack Ping で指定されていることがある
 	// うまくいかない場合は自動検出に切り替え
 	if (mb_convert_variables(SOURCE_ENCODING,
@@ -241,7 +241,7 @@ if (isset($_POST['encode_hint']) && $_POST['encode_hint'] != '') {
 		mb_convert_variables(SOURCE_ENCODING, 'auto', $_POST);
 	}
 
-} else if (! empty($_POST)) {
+} elseif (! empty($_POST)) {
 	// 全部まとめて、自動検出／変換
 	mb_convert_variables(SOURCE_ENCODING, 'auto', $_POST);
 }
@@ -267,7 +267,7 @@ if (isset($_GET['encode_hint']) && $_GET['encode_hint'] != '')
 $arg = '';
 if (isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING']) {
 	$arg = & $_SERVER['QUERY_STRING'];
-} else if (isset($_SERVER['argv']) && ! empty($_SERVER['argv'])) {
+} elseif (isset($_SERVER['argv']) && ! empty($_SERVER['argv'])) {
 	$arg = & $_SERVER['argv'][0];
 }
 if (PKWK_QUERY_STRING_MAX && strlen($arg) > PKWK_QUERY_STRING_MAX) {
@@ -314,7 +314,7 @@ $cookie = & $_COOKIE;
 // GET + POST = $vars
 if (empty($_POST)) {
 	$vars = & $_GET;  // Major pattern: Read-only access via GET
-} else if (empty($_GET)) {
+} elseif (empty($_GET)) {
 	$vars = & $_POST; // Minor pattern: Write access via POST etc.
 } else {
 	$vars = array_merge($_GET, $_POST); // Considered reliable than $_REQUEST
@@ -410,5 +410,3 @@ $line_rules = array_merge(array(
 	'&amp;(#[0-9]+|#x[0-9a-f]+|' . $entity_pattern . ');' => '&$1;',
 	"\r"          => '<br />' . "\n",	/* 行末にチルダは改行 */
 ), $line_rules);
-
-?>

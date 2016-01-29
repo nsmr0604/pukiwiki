@@ -8,4 +8,3 @@ function plugin_hr_convert()
 {
 	return '<hr class="short_line" />';
 }
-?>

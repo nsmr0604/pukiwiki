@@ -18,7 +18,7 @@ function plugin_size_inline()
 
 	// strip_autolink() is not needed for size plugin
 	//$body = strip_htmltag($body);
-	
+
 	if ($size == '' || $body == '' || ! preg_match('/^\d+$/', $size))
 		return PLUGIN_SIZE_USAGE;
 
@@ -27,4 +27,3 @@ function plugin_size_inline()
 		'px;display:inline-block;line-height:130%;text-indent:0px">' .
 		$body . '</span>';
 }
-?>

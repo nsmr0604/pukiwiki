@@ -94,16 +94,16 @@ EOD;
 // Information Processing Letters 35, 6 (1990), 317-323.
 class line_diff
 {
-	var $arr1, $arr2, $m, $n, $pos, $key, $plus, $minus, $equal, $reverse;
+	public $arr1, $arr2, $m, $n, $pos, $key, $plus, $minus, $equal, $reverse;
 
-	function line_diff($plus = '+', $minus = '-', $equal = ' ')
+	public function line_diff($plus = '+', $minus = '-', $equal = ' ')
 	{
 		$this->plus  = $plus;
 		$this->minus = $minus;
 		$this->equal = $equal;
 	}
 
-	function arr_compare($key, $arr1, $arr2)
+	public function arr_compare($key, $arr1, $arr2)
 	{
 		$this->key  = $key;
 		$this->arr1 = $arr1;
@@ -113,7 +113,7 @@ class line_diff
 		return $arr;
 	}
 
-	function set_str($key, $str1, $str2)
+	public function set_str($key, $str1, $str2)
 	{
 		$this->key  = $key;
 		$this->arr1 = array();
@@ -128,7 +128,7 @@ class line_diff
 		}
 	}
 
-	function str_compare($str1, $str2)
+	public function str_compare($str1, $str2)
 	{
 		$this->set_str('diff', $str1, $str2);
 		$this->compare();
@@ -140,7 +140,7 @@ class line_diff
 		return $str;
 	}
 
-	function compare()
+	public function compare()
 	{
 		$this->m = count($this->arr1);
 		$this->n = count($this->arr2);
@@ -189,7 +189,7 @@ class line_diff
 		}
 	}
 
-	function snake($k, $y1, $y2)
+	public function snake($k, $y1, $y2)
 	{
 		if ($y1 >= $y2) {
 			$_k = $k - 1;
@@ -209,7 +209,7 @@ class line_diff
 		return $y;
 	}
 
-	function toArray()
+	public function toArray()
 	{
 		$arr = array();
 		if ($this->reverse) { // ¸ÈÂ©¤Ê¡Ä
@@ -248,38 +248,37 @@ class line_diff
 
 class DiffLine
 {
-	var $text;
-	var $status;
+	public $text;
+	public $status;
 
-	function DiffLine($text)
+	public function DiffLine($text)
 	{
 		$this->text   = $text . "\n";
 		$this->status = array();
 	}
 
-	function compare($obj)
+	public function compare($obj)
 	{
 		return $this->text == $obj->text;
 	}
 
-	function set($key, $status)
+	public function set($key, $status)
 	{
 		$this->status[$key] = $status;
 	}
 
-	function get($key)
+	public function get($key)
 	{
 		return isset($this->status[$key]) ? $this->status[$key] : '';
 	}
 
-	function merge($obj)
+	public function merge($obj)
 	{
 		$this->status += $obj->status;
 	}
 
-	function text()
+	public function text()
 	{
 		return $this->text;
 	}
 }
-?>

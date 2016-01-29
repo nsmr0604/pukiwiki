@@ -45,7 +45,7 @@ function pkwk_mail_notify($subject, $message, $footer = array())
 		$_after_pop = $smtp_auth;
 	}
 
-	if ($subject == '' || ($message == '' && empty($footer))) return FALSE;
+	if ($subject == '' || ($message == '' && empty($footer))) return false;
 
 	// Subject:
 	if (isset($footer['PAGE'])) $subject = str_replace('$page', $footer['PAGE'], $subject);
@@ -65,7 +65,7 @@ function pkwk_mail_notify($subject, $message, $footer = array())
 	// Wait POP/APOP auth completion
 	if ($_after_pop) {
 		$result = pop_before_smtp();
-		if ($result !== TRUE) die($result);
+		if ($result !== true) die($result);
 	}
 
 	ini_set('SMTP', $smtp_server);
@@ -81,8 +81,8 @@ function pkwk_mail_notify($subject, $message, $footer = array())
 function pop_before_smtp($pop_userid = '', $pop_passwd = '',
 	$pop_server = 'localhost', $pop_port = 110)
 {
-	$pop_auth_use_apop = TRUE;	// Always try APOP, by default
-	$must_use_apop     = FALSE;	// Always try POP for APOP-disabled server
+	$pop_auth_use_apop = true;	// Always try APOP, by default
+	$must_use_apop     = false;	// Always try POP for APOP-disabled server
 	if (isset($GLOBALS['pop_auth_use_apop'])) {
 		// Force APOP only, or POP only
 		$pop_auth_use_apop = $must_use_apop = $GLOBALS['pop_auth_use_apop'];
@@ -149,7 +149,6 @@ function pop_before_smtp($pop_userid = '', $pop_passwd = '',
 	if (! $auth) {
 		return ('pop_before_smtp(): ' . $method . ' authentication failed');
 	} else {
-		return TRUE;	// Success
+		return true;	// Success
 	}
 }
-?>

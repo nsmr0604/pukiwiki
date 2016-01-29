@@ -82,7 +82,7 @@ $navi = join(' | ', $navi);
 // ----
 // Output HTTP headers
 pkwk_headers_sent();
-if(TRUE) {
+if(true) {
 	// Force Shift JIS encode for Japanese embedded browsers and devices
 	header('Content-Type: text/html; charset=Shift_JIS');
 	$title = mb_convert_encoding($title, 'SJIS', SOURCE_ENCODING);

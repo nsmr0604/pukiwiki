@@ -89,4 +89,3 @@ function plugin_new_inline()
 		return $retval;
 	}
 }
-?>

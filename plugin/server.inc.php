@@ -17,4 +17,3 @@ function plugin_server_convert()
 			SERVER_ADMIN . '</a></dd>' . "\n" .
 		'</dl>' . "\n";
 }
-?>
